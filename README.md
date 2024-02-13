@@ -1,1 +1,1 @@
-# useful_array_handler_in_c
+# Thoughtful array handler for c
