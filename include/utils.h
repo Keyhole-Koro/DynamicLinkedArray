@@ -7,6 +7,10 @@
 
 int undefined = -1;
 
+bool isOutOfRange(DynamicArray *arr, int index);
+
+void copyPasteElements(DynamicArray *copiedArr, DynamicArray *pastedArr);
+
 bool isElementDataMatching(int (*referentMember)(void *, DataType),void *data1, void *data2, DataType type);
 bool isDataSizeMatching(DynamicArray *arr, int size);
 bool isDataSizeSet(DynamicArray *arr);

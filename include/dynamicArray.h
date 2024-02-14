@@ -15,13 +15,9 @@ typedef struct {
     void **dataArray; // Placeholder for array of data elements
     int offset; // Offset value
     int capacity; // Capacity of the dynamic array
-    bool allowOverlapping; // If true, allows overlapping
-    bool *elementExistence; // Array containing 0 or 1 indicating existence of elements
-    int overlapArrayCapacity; // Capacity of the overlapping array
+    OverlapArray *overlapArray;
     int (*referentMember)(void*, DataType); // Function pointer for getting member based on data type
     bool allowModification; // If true, allows modification of the array
 } DynamicArray;
-
-void initializeBoolArray(bool *arr, int size);
 
 #endif

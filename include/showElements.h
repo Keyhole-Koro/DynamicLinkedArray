@@ -3,4 +3,7 @@
 
 #include "dynamicArray.h"
 
+void showConfig(DynamicArray *arr);
+void showIntElements(DynamicArray *arr);
+
 #endif

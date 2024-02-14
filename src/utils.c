@@ -1,5 +1,17 @@
 #include "utils.h"
 
+bool isOutOfRange(DynamicArray *arr, int index) {
+    if (index < 0 || index > getArrayOffset(arr)) return true;
+    return false;
+}
+
+void copyPasteElements(DynamicArray *copiedArr, DynamicArray *pastedArr) {
+	if (copiedArr->DataType != pastedArr->typeDataType) error("type mismatch: copyPasteElements\n");
+	for (int i = 0; i < getArraySize(copiedArr); i++) {
+		appendCopy(pastedArr, retriveData(copiedArr, i, copiedArr->DataType), pastedArr->DataType);
+    }
+}
+
 bool isElementDataMatching(int (*referentMember)(void *, DataType),void *data1, void *data2, DataType type) {
     if (referentMember(data1, type) == referentMember(data2, type)) return true;
     return false;

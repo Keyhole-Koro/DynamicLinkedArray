@@ -17,13 +17,8 @@ DynamicArray *initializeDynamicArray(int initialCapacity, bool allowModification
     arr->capacity = initialCapacity;
     arr->allowModification = allowModification;
 
-    if (referentMember != &dummy_member) {
-        arr->allowOverlapping = false;
-        arr->elementExistence = createBoolArray(initialCapacity);
-        arr->overlapArrayCapacity = initialCapacity;
-    } else {
-        arr->allowOverlapping = true;
-    }
+    arr->overlapArray = (referentMember != &dummy_member) ? createOverlapArray(initialCapacity) : NULL;    
+
     arr->referentMember = referentMember;
 
     return arr;
@@ -35,7 +30,7 @@ void addToDynamicArray(DynamicArray *arr, void *data, DataType type) {
 
     if (!isDataSizeSet(arr)) setDataSize(arr, data);
     if (!isDataSizeMatching(arr, sizeof(*data))) error("Type mismatch at addToDynamicArray()\n");
-    if (isAlreadyExist(arr, arr->referentMember((void *)data, type))) return;
+    if (ifElementExists(arr, arr->referentMember((void *)data, type))) return;
 
     reallocateDynamicArray(arr);
 
@@ -50,7 +45,7 @@ void copyAndAddToDynamicArray(DynamicArray *arr, void *data, DataType type) {
 
     if (!isDataSizeSet(arr)) setDataSize(arr, data);
     if (!isDataSizeMatching(arr, sizeData)) error("Type mismatch at copyAndAddToDynamicArray()\n");
-    if (isAlreadyExist(arr, arr->referentMember((void *)data, type))) return;
+    if (ifElementExists(arr, arr->referentMember((void *)data, type))) return;
 
     reallocateDynamicArray(arr);
 
@@ -63,14 +58,12 @@ void copyAndAddToDynamicArray(DynamicArray *arr, void *data, DataType type) {
 void *retriveData(DynamicArray *arr, int pos, DataType type) {
 	if (!ifDataTypeMatch(arr, type)) error("type mismatch: retriveData\n");
 
-	if (pos < 0 || pos > getArrayOffset(arr)) error("Index out of bounds: retriveData\n");
+	if (isOutOfRange(arr, pos)) error("Index out of bounds: retriveData\n");
 
 	return arr->dataArray[pos];
 }
 
-void *fetchMatchingData(DynamicArray *arr, void *expectedData, DataType type) {
-    if (getArraySize(arr) == 0) return NULL;
-        
+void *fetchMatchingData(DynamicArray *arr, void *expectedData, DataType type) {        
     //may replace here to extractCertainData()
     for (int i = 0; getArraySize(arr); i++) {
         void *data = (void *)retriveData(arr, i, type);
@@ -94,6 +87,18 @@ void initializeElementsInDynamicArray(DynamicArray *arr, int startIndex) {
     for (int i = startIndex; i < arr->capacity; i++) {
         arr->dataArray[i] = NULL;
     }
+}
+
+DynamicArray *cloneArray(DynamicArray *originalArr) {
+	Type type = originalArr->DataType;
+	DynamicArray *clonedArray = createDynamicArray(getArraySize(originalArr), originalArr->allowModification, originalArr->referentMember, type);
+
+	for (int i = 0; i < getArraySize(originalArr); i++) {
+        Data *data = retriveData(originalArr, i, type);
+		appendCopy(clonedArray, data, type);
+	}
+
+	return clonedArray;
 }
 
 void destroyDynamicArray(DynamicArray* arr) {
