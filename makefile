@@ -1,18 +1,13 @@
 CC = gcc
-
 CFLAGS = -Wall -Wextra -std=c99
-
 EXECUTABLE = output
+SRC = ./src/main.c
+INCLUDE_DIR = ./include
 
-SRC = main.c
-
-# Default target: build the executable
 all: $(EXECUTABLE)
 
-# Rule to build the executable
 $(EXECUTABLE): $(SRC)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -o $@ $^
 
-# Rule to clean up generated files
 clean:
 	rm -f $(EXECUTABLE)

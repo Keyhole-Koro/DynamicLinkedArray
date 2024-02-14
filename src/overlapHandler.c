@@ -1,4 +1,4 @@
-#include "./include/overlapHandler.h"
+#include "overlapHandler.h"
 
 OverlapArray *createOverlapArray(int size) {
     OverlapArray *arr = (OverlapArray *)malloc(sizeof(OverlapArray));

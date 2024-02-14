@@ -11,4 +11,5 @@ typedef enum {
     INT = 0,
     EXPR,
 } DataType;
+
 #endif

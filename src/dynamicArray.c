@@ -1,6 +1,6 @@
-#include "./include/dynamicArray.h"
+#include "dynamicArray.h"
 
-DynamicArray *initializeDynamicArray(int initialCapacity, bool allowModification, int (*referentMember)(void *, DataType), DataType type) {
+DynamicArray *createDynamicArray(int initialCapacity, bool allowModification, int (*referentMember)(void *, DataType), DataType type) {
     DynamicArray *dArr = (DynamicArray *)malloc(sizeof(DynamicArray));
     if (dArr == NULL) error("Memory allocation failed\n");
     dArr->dataArray = (void **)malloc(sizeof(void *) * initialCapacity);
@@ -22,7 +22,7 @@ DynamicArray *initializeDynamicArray(int initialCapacity, bool allowModification
 
 void addToDynamicArray(DynamicArray *dArr, void *data, DataType type) {
     if (dArr->allowModification == false) error("Modification not allowed: addToDynamicArray\n");
-    if (!ifDataTypeMatch(dArr, type)) error("Type mismatch: addToDynamicArray\n");
+    if (!isDataTypeMatching(dArr, type)) error("Type mismatch: addToDynamicArray\n");
 
     if (!isDataSizeSet(dArr)) setDataSize(dArr, data);
     if (!isDataSizeMatching(dArr, sizeof(*data))) error("Type mismatch at addToDynamicArray()\n");
@@ -35,7 +35,7 @@ void addToDynamicArray(DynamicArray *dArr, void *data, DataType type) {
 
 void copyAndAddToDynamicArray(DynamicArray *dArr, void *data, DataType type) {
     if (dArr->allowModification == false) error("Modification not allowed: copyAndAddToDynamicArray\n");
-    if (!ifDataTypeMatch(dArr, type)) error("Type mismatch: copyAndAddToDynamicArray\n");
+    if (!isDataTypeMatching(dArr, type)) error("Type mismatch: copyAndAddToDynamicArray\n");
 
     int sizeData = sizeof(*data);
 
@@ -52,7 +52,7 @@ void copyAndAddToDynamicArray(DynamicArray *dArr, void *data, DataType type) {
 }
 
 void *retriveData(DynamicArray *dArr, int pos, DataType type) {
-	if (!ifDataTypeMatch(dArr, type)) error("type mismatch: retriveData\n");
+	if (!isDataTypeMatching(dArr, type)) error("type mismatch: retriveData\n");
 
 	if (isOutOfRange(dArr, pos)) error("Index out of bounds: retriveData\n");
 

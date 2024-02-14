@@ -5,8 +5,7 @@ int dummy_member(void *data, DataType type) {
 }
 
 bool isOutOfRange(DynamicArray *dArr, int index) {
-    if (index < 0 || index > getArrayOffset(dArr)) return true;
-    return false;
+    return index < 0 || index > getArrayOffset(dArr);
 }
 
 void copyPasteElements(DynamicArray *copiedArr, DynamicArray *pastedArr) {
@@ -17,27 +16,24 @@ void copyPasteElements(DynamicArray *copiedArr, DynamicArray *pastedArr) {
 }
 
 bool isElementDataMatching(int (*referentMember)(void *, DataType),void *data1, void *data2, DataType type) {
-    if (referentMember(data1, type) == referentMember(data2, type)) return true;
-    return false;
+    return referentMember(data1, type) == referentMember(data2, type);
 }
 
-bool isDataSizeMatching(DynamicArray *dArr, int size) {
-    if (dArr->dataSize == size) return true;
-    return false;
+bool isDataSizeMatching(DataUnion *data, int size) {
+    return DATA_SIZE_MATCH(data, size);
 }
 
-bool isDataSizeSet(DynamicArray *dArr) {
-    if (dArr->dataSize == undefined) return false;
-    return true;
+
+bool isDataSizeSet(DataUnion *data) {
+    return DATA_SIZE_MATCH(data, undefined);
 }
 
-void setDataSize(DynamicArray *dArr, void *data) {
-    dArr->dataSize = sizeof(*data);
+void setDataSize(DataUnion *data, void *payload) {
+    return DATA_SIZE_MATCH(data, sizeof(*payload));
 }
 
-bool ifDataTypeMatch(DynamicArray *dArr, DataType expectedDataType) {
-    if (dArr->dataType == expectedDataType) return true;
-    return false;
+bool isDataTypeMatching(DataUnion *data, DataType expectedDataType) {
+    return data->array.dataType == expectedDataType || data->tree.dataType == expectedDataType;
 }
 
 int getArraySize(DynamicArray *dArr) {

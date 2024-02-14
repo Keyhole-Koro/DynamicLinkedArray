@@ -1,4 +1,4 @@
-#include "./include/dynamicTree.h"
+#include "dynamicTree.h"
 
 // Function to create a new DynamicTree
 DynamicTree *createDynamicTree(bool ifAllowOverlapping, int (*referentMember)(void*, DataType), bool allowModification, DataType dataType) {
@@ -53,8 +53,8 @@ Node *retriveNodeRecursive(Node *root, Node *expectedNode) {
 }
 
 void ensureConsistentTreeElements(DynamicTree *tree, Node *newNode, DataType type) {
-    if (tree->dataSize != sizeof(*(newNode->payload))) error("The data sizes don't match");
-    if (tree->dataType != type) error("The data types don't match");
+    if (isDataSizeMatching(tree, newNode->payload)) error("The data sizes don't match");
+    if (isDataTypeMatching(tree, type)) error("The data types don't match");
 }
 
 void deleteNode(DynamicTree *tree, int hash) {

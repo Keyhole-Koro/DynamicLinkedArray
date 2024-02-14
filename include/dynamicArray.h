@@ -6,8 +6,8 @@
 #include <string.h>
 #include <stdbool.h>
 
-#include "dataTypeHandler.h"
 #include "overlapHandler.h"
+#include "dataTypeHandler.h"
 #include "utils.h"
 
 typedef struct {
@@ -20,5 +20,23 @@ typedef struct {
     int (*referentMember)(void*, DataType); // Function pointer for getting member based on data type
     bool allowModification; // If true, allows modification of the array
 } DynamicArray;
+
+DynamicArray *createDynamicArray(int initialCapacity, bool allowModification, int (*referentMember)(void *, DataType), DataType type);
+
+void addToDynamicArray(DynamicArray *dArr, void *data, DataType type);
+
+void copyAndAddToDynamicArray(DynamicArray *dArr, void *data, DataType type);
+
+void *retriveData(DynamicArray *dArr, int pos, DataType type);
+
+void *fetchMatchingData(DynamicArray *dArr, void *expectedData, DataType type);
+
+void reallocateDynamicArray(DynamicArray *dArr);
+
+void initializeElementsInDynamicArray(DynamicArray *dArr, int startIndex);
+
+DynamicArray *cloneArray(DynamicArray *originaldArr);
+
+void destroyDynamicArray(DynamicArray* dArr);
 
 #endif

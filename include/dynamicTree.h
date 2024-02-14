@@ -3,6 +3,7 @@
 
 #include "stdbool.h"
 
+#include "dataTypeHandler.h"
 #include "overlapHandler.h"
 #include "utils.h"
 

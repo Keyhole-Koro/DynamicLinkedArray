@@ -1,4 +1,4 @@
-#include "./include/elementHandler.h"
+#include "elementHandler.h"
 
 void swapElement(DynamicArray *dArr, int pos1, int pos2, DataType type) {
 	if (dArr->allowModification == false) error("not allowed to be modified: swapElement\n");

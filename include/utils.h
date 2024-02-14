@@ -4,8 +4,16 @@
 #include <stdbool.h>
 
 #include "dynamicArray.h"
+#include "dynamicTree.h"
+
+#define DATA_SIZE_MATCH(data, size) (data)->array.dataSize == (size) || (data)->tree.dataSize == (size)
 
 int undefined = -1;
+
+typedef union {
+    DynamicArray array;
+    DynamicTree tree;
+} DataUnion;
 
 int dummy_member(void *data, DataType type);
 
@@ -13,15 +21,15 @@ bool isOutOfRange(DynamicArray *arr, int index);
 
 void copyPasteElements(DynamicArray *copiedArr, DynamicArray *pastedArr);
 
-bool isElementDataMatching(int (*referentMember)(void *, DataType),void *data1, void *data2, DataType type);
-bool isDataSizeMatching(DynamicArray *arr, int size);
-bool isDataSizeSet(DynamicArray *arr);
-void setDataSize(DynamicArray *arr, void *data);
-bool ifDataTypeMatch(DynamicArray *arr, DataType expectedDataType);
-int getArraySize(DynamicArray *arr);
+bool isElementDataMatching(int (*referentMember)(void*, DataType), void*, void*, DataType);
+bool isDataSizeMatching(DynamicArray*, int);
+bool isDataSizeSet(DynamicArray*);
+void setDataSize(DynamicArray*, void*);
+bool ifDataTypeMatch(DynamicArray*, DataType);
+int getArraySize(DynamicArray*);
 
-bool *createBoolArray(int size);
-void initializeBoolArray(bool *arr, int size);
-void destoryBoolArray(bool *arr);
+bool *createBoolArray(int);
+void initializeBoolArray(bool*, int);
+void destoryBoolArray(bool*);
 
 #endif
