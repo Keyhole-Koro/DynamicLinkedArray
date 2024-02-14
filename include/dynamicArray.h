@@ -21,22 +21,22 @@ typedef struct {
     bool allowModification; // If true, allows modification of the array
 } DynamicArray;
 
-DynamicArray *createDynamicArray(int initialCapacity, bool allowModification, int (*referentMember)(void *, DataType), DataType type);
+DynamicArray *createDynamicArray(int, bool, int (*referentMember)(void*, DataType), DataType);
 
-void addToDynamicArray(DynamicArray *dArr, void *data, DataType type);
+void addToDynamicArray(DynamicArray*, void*, DataType);
 
-void copyAndAddToDynamicArray(DynamicArray *dArr, void *data, DataType type);
+void copyAndAddToDynamicArray(DynamicArray*, void*, DataType);
 
-void *retriveData(DynamicArray *dArr, int pos, DataType type);
+void *retriveData(DynamicArray*, int, DataType);
 
-void *fetchMatchingData(DynamicArray *dArr, void *expectedData, DataType type);
+void *fetchMatchingData(DynamicArray*, void*, DataType );
 
-void reallocateDynamicArray(DynamicArray *dArr);
+void reallocateDynamicArray(DynamicArray*);
 
-void initializeElementsInDynamicArray(DynamicArray *dArr, int startIndex);
+void initializeElementsInDynamicArray(DynamicArray*, int);
 
-DynamicArray *cloneArray(DynamicArray *originaldArr);
+DynamicArray *cloneArray(DynamicArray*);
 
-void destroyDynamicArray(DynamicArray* dArr);
+void destroyDynamicArray(DynamicArray*);
 
 #endif

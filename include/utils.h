@@ -15,11 +15,11 @@ typedef union {
     DynamicTree tree;
 } DataUnion;
 
-int dummy_member(void *data, DataType type);
+int dummy_member(void*, DataType);
 
-bool isOutOfRange(DynamicArray *arr, int index);
+bool isOutOfRange(DynamicArray*, int);
 
-void copyPasteElements(DynamicArray *copiedArr, DynamicArray *pastedArr);
+void copyPasteElements(DynamicArray*, DynamicArray*);
 
 bool isElementDataMatching(int (*referentMember)(void*, DataType), void*, void*, DataType);
 bool isDataSizeMatching(DynamicArray*, int);
