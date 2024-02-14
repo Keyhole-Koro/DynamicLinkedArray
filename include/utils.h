@@ -7,6 +7,8 @@
 
 int undefined = -1;
 
+int dummy_member(void *data, DataType type);
+
 bool isOutOfRange(DynamicArray *arr, int index);
 
 void copyPasteElements(DynamicArray *copiedArr, DynamicArray *pastedArr);

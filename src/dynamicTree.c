@@ -1,22 +1,22 @@
 #include "./include/dynamicTree.h"
 
 // Function to create a new DynamicTree
-DynamicTree *createDynamicTree(int dataSize, bool ifAllowOverlapping, int (*referentMember)(void*, DataType), bool allowModification, DataType dataType) {
-    DynamicTree* tree = (DynamicTree*)malloc(sizeof(DynamicTree));
+DynamicTree *createDynamicTree(bool ifAllowOverlapping, int (*referentMember)(void*, DataType), bool allowModification, DataType dataType) {
+    DynamicTree *tree = (DynamicTree*)malloc(sizeof(DynamicTree));
     tree->dataType = dataType;
-    tree->dataSize = dataSize;
+    tree->dataSize = undefined;
     tree->root = NULL;
     
-    arr->overlapArray = (referentMember != &dummy_member) ? createOverlapArray(initialCapacity) : NULL;    
-    arr->referentMember = referentMember;
+    tree->overlapArray = (referentMember != &dummy_member) ? createOverlapArray() : NULL;    
+    tree->referentMember = referentMember;
 
     tree->allowModification = allowModification;
     return tree;
 }
 
-void *createNode(int hash, void *payload) {
-    Node* node = (Node*)malloc(sizeof(Node));
-    node->hash = hash;
+void *createNode(DynamicTree *tree, void *payload) {
+    Node *node = (Node*)malloc(sizeof(Node));
+    node->hash = tree->hashCalculation(payload, tree->dataType);
     node->left = NULL;
     node->right = NULL;
     node->payload = payload;
@@ -24,6 +24,10 @@ void *createNode(int hash, void *payload) {
 
 void insertPayload(DynamicTree *tree, Node *newNode, DataType type) {
     ensureConsistentTreeElements(tree, newNode, type);
+
+    if (!isDataSizeSet(tree)) setDataSize(tree, newNode->payload);
+    if (!isDataSizeMatching(tree, sizeof(*newNode->payload))) error("Type mismatch at addToDynamicArray()\n");
+    if (ifElementExists(tree, tree->referentMember((void *)tree, type))) return;
 
     void root_insertPayload(Node *root, Node *newNode) {
         if (root == NULL) {
@@ -36,44 +40,29 @@ void insertPayload(DynamicTree *tree, Node *newNode, DataType type) {
     root_insertPayload(tree->root, newData);
 }
 
-// Function to lookup a Data in the DynamicTree
 void *retrivePayload(DynamicTree *tree, bool (customCmp)(Node*, Node*), void *payload) {
-    Node *expectedNode = createNode(hash, payload);
+    Node *expectedNode = createNode(tree, payload);
+
     void root_retrivePayload(Node *root, Node *expectedNode) {
         if (customCmp(root, expectedNode)) return root;
         if (HASH_LESS_THAN_OR_EQUAL(root, expectedNode)) ? root_retrivePayload(root->left, expectedNode) : root_retrivePayload(root->right, expectedNode);
     }
+
     return root_retrivePayload(tree->root, expectedNode);  // Return the found Data node or NULL if not found
-}
-
-// Function to delete a Data from the DynamicTree
-void deletePayload(DynamicTree* tree, int hash) {
-    // Implementation for deletion logic
-    // You need to handle how to delete a Data node from the tree
-}
-
-// Function to destroy the DynamicTree and free memory
-void destroyDynamicTree(DynamicTree* tree) {
-    // Implementation for destroying the DynamicTree
-    // Free memory and perform any cleanup
-    free(tree);
 }
 
 void ensureConsistentTreeElements(DynamicTree *tree, Node *newNode, DataType type) {
     if (tree->dataSize != sizeof(*(newNode->payload))) error("The data sizes don't match");
-    if (tree->DataType != type) error("The data types don't match");
+    if (tree->dataType != type) error("The data types don't match");
 }
 // Sample usage
 int main() {
-    DynamicTree* myTree = createDynamicTree(/* your parameters here */);
+    DynamicTree *myTree = createDynamicTree(/* your parameters here */);
 
-    // Insertion example
-    void* newPayload = /* create a Data node */;
+    void *newPayload = /* create a Data node */;
     insertPayload(myTree, newPayload);
 
-    // Lookup example
-    int lookupHash = /* specify the hash value */;
-    void* foundData = retrivePayload(myTree, lookupHash);
+    void *foundData = retrivePayload(myTree, );
 
     // Deletion example
     int deleteHash = /* specify the hash value */;

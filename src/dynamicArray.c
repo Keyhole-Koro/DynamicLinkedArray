@@ -1,9 +1,5 @@
 #include "./include/dynamicArray.h"
 
-int dummy_member(void *data, DataType type) {
-    return undefined;
-}
-
 DynamicArray *initializeDynamicArray(int initialCapacity, bool allowModification, int (*referentMember)(void *, DataType), DataType type) {
     DynamicArray *arr = (DynamicArray *)malloc(sizeof(DynamicArray));
     if (arr == NULL) error("Memory allocation failed\n");
@@ -90,11 +86,11 @@ void initializeElementsInDynamicArray(DynamicArray *arr, int startIndex) {
 }
 
 DynamicArray *cloneArray(DynamicArray *originalArr) {
-	Type type = originalArr->DataType;
+	DataType type = originalArr->dataType;
 	DynamicArray *clonedArray = createDynamicArray(getArraySize(originalArr), originalArr->allowModification, originalArr->referentMember, type);
 
 	for (int i = 0; i < getArraySize(originalArr); i++) {
-        Data *data = retriveData(originalArr, i, type);
+        void *data = retriveData(originalArr, i, type);
 		appendCopy(clonedArray, data, type);
 	}
 

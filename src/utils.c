@@ -1,14 +1,18 @@
 #include "utils.h"
 
+int dummy_member(void *data, DataType type) {
+    return undefined;
+}
+
 bool isOutOfRange(DynamicArray *arr, int index) {
     if (index < 0 || index > getArrayOffset(arr)) return true;
     return false;
 }
 
 void copyPasteElements(DynamicArray *copiedArr, DynamicArray *pastedArr) {
-	if (copiedArr->DataType != pastedArr->typeDataType) error("type mismatch: copyPasteElements\n");
+	if (copiedArr->dataType != pastedArr->dataType) error("type mismatch: copyPasteElements\n");
 	for (int i = 0; i < getArraySize(copiedArr); i++) {
-		appendCopy(pastedArr, retriveData(copiedArr, i, copiedArr->DataType), pastedArr->DataType);
+		appendCopy(pastedArr, retriveData(copiedArr, i, copiedArr->dataType), pastedArr->dataType);
     }
 }
 

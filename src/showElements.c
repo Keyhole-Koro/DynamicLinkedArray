@@ -1,20 +1,22 @@
 #include "showElements.h"
 #include <stdio.h>
 
-void showConfig(DynamicArray *arr) {
+void showConfigArray(DynamicArray *arr) {
     printf("DataType: %d\n", arr->dataType);
     printf("DataSize: %d\n", arr->dataSize);
     printf("Offset: %d\n", arr->offset);
     printf("Capacity: %d\n", arr->capacity);
-    printf("Allow Overlapping: %s\n", arr->allowOverlapping ? "true" : "false");
-    printf("OverlapArrayCapacity: %d\n", arr->overlapArrayCapacity);
-    printf("Allow Modification: %s\n", ararraray->allowModification ? "true" : "false");
+    if (!arr->overlapArray) ("OverlapArrayCapacity: %d\n", arr->overlapArray->capacity);
+    printf("Allow Modification: %s\n", arr->allowModification ? "true" : "false");
 
     printf("\n");
+
+    if (!arr->overlapArray) return;
+
     // Displaying elementExistence array
     printf("ElementExistence Array:\n");
-    for (int i = 0; i < array->capacity; ++i) {
-        printf("%d ", array->elementExistence[i]);
+    for (int i = 0; i < arr->overlapArray->capacity; ++i) {
+        printf("%d ", arr->overlapArray->elementExistenceArray[i]);
     }
     printf("\n");
 }

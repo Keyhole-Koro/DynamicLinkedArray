@@ -3,6 +3,9 @@
 
 #include "stdbool.h"
 
+#include "overlapHandler.h"
+#include "utils.h"
+
 #define HASH_LESS_THAN_OR_EQUAL(root, Node) ((root)->hash <= (Node)->hash)
 
 typedef struct {
@@ -15,7 +18,7 @@ typedef struct {
 typedef struct {
     DataType dataType;
     int dataSize; // used to ensure that a struct of a subject is the same as data's
-    Data *root;
+    Node *root;
     int (*hashCalculation)(void*, DataType); // the primary parameter has payload
     OverlapArray *overlapArray;
     int (*referentMember)(void*, DataType); // Function pointer for getting member based on data type
