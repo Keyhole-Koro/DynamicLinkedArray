@@ -6,35 +6,35 @@ OverlapArray *createOverlapArray(int size) {
     arr->elementExistenceArray = createBoolArray(size);
 }
 
-bool ifElementExists(DynamicArray *arr, int index) {
-    if (arr->allowOverlapping) return false;
+bool ifElementExists(OverlapArray *olArr, int index) {
+    if (!olArr) return false;
 	if (index < 0) error("index is under index");
     if (index > 100) printf("warn: index exceeds 100: index == %d\n", index);// in case the size is huge
 
-    reallocOverlapArray(arr, index);
+    reallocOverlapArray(olArr, index);
 
-    if (arr->elementExistenceArray[index] == 1) return true;
-    fillInIndexOfOverlapArray(arr, index);
+    if (olArr->elementExistenceArray[index] == 1) return true;
+    fillInIndexOfOverlapArray(olArr, index);
     return false;
 }
 
-void reallocOverlapArray(OverlapArray *arr, int index) {
-    int cur_capacity = arr->capacity;
+void reallocOverlapArray(OverlapArray *olArr, int index) {
+    int cur_capacity = olArr->capacity;
     if (index > cur_capacity) {
         int new_capacity = index * 1.4 * sizeof(unsigned char);
 
-        arr->elementExistenceArray = realloc(arr->elementExistenceArray, new_capacity);
+        olArr->elementExistenceArray = realloc(olArr->elementExistenceArray, new_capacity);
 
-        if (arr->elementExistenceArray == NULL) error("Memory allocation failed\n");
+        if (olArr->elementExistenceArray == NULL) error("Memory allocation failed\n");
         
-        arr->overlapArrayCapacity = new_capacity;
+        olArr->capacity = new_capacity;
 
         for (int i = cur_capacity; i < new_capacity; i++) {
-            arr->elementExistenceArray[i] = false;
+            olArr->elementExistenceArray[i] = false;
         }
     }
 }
 
-void fillInIndexOfOverlapArray(DynamicArray *arr, int index) {
-	arr->elementExistenceArray[index] = true;
+void fillInIndexOfOverlapArray(OverlapArray *olArr, int index) {
+	olArr->elementExistenceArray[index] = true;
 }

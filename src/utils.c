@@ -4,8 +4,8 @@ int dummy_member(void *data, DataType type) {
     return undefined;
 }
 
-bool isOutOfRange(DynamicArray *arr, int index) {
-    if (index < 0 || index > getArrayOffset(arr)) return true;
+bool isOutOfRange(DynamicArray *dArr, int index) {
+    if (index < 0 || index > getArrayOffset(dArr)) return true;
     return false;
 }
 
@@ -21,27 +21,27 @@ bool isElementDataMatching(int (*referentMember)(void *, DataType),void *data1, 
     return false;
 }
 
-bool isDataSizeMatching(DynamicArray *arr, int size) {
-    if (arr->dataSize == size) return true;
+bool isDataSizeMatching(DynamicArray *dArr, int size) {
+    if (dArr->dataSize == size) return true;
     return false;
 }
 
-bool isDataSizeSet(DynamicArray *arr) {
-    if (arr->dataSize == undefined) return false;
+bool isDataSizeSet(DynamicArray *dArr) {
+    if (dArr->dataSize == undefined) return false;
     return true;
 }
 
-void setDataSize(DynamicArray *arr, void *data) {
-    arr->dataSize = sizeof(*data);
+void setDataSize(DynamicArray *dArr, void *data) {
+    dArr->dataSize = sizeof(*data);
 }
 
-bool ifDataTypeMatch(DynamicArray *arr, DataType expectedDataType) {
-    if (arr->dataType == expectedDataType) return true;
+bool ifDataTypeMatch(DynamicArray *dArr, DataType expectedDataType) {
+    if (dArr->dataType == expectedDataType) return true;
     return false;
 }
 
-int getArraySize(DynamicArray *arr) {
-	return arr->offset + 1;
+int getArraySize(DynamicArray *dArr) {
+	return dArr->offset + 1;
 }
 
 bool *createBoolArray(int size) {
@@ -56,6 +56,6 @@ void initializeBoolArray(bool *arr, int size) {
     }
 }
 
-void destoryBoolArray(bool *arr) {
-    free(arr);
+void destoryBoolArray(bool *dArr) {
+    free(dArr);
 }

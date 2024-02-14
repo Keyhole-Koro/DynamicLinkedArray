@@ -61,47 +61,6 @@ void deleteNode(DynamicTree *tree, int hash) {
     tree->root = deleteNodeRecursive(tree->root, hash);
 }
 
-Node *deleteNodeRecursive(Node *root, int hash) {
-    if (root == NULL) return root; // Base case: If the tree or subtree is empty, return NULL
-
-    if (hash < root->hash) {
-        root->left = deleteNodeRecursive(root->left, hash);
-    } else if (hash > root->hash) {
-        root->right = deleteNodeRecursive(root->right, hash);
-    } else { // If the hash matches, this is the node to be deleted
-        // Node with only one child or no child
-        if (root->left == NULL) {
-            Node *temp = root->right;
-            free(root);
-            return temp;
-        } else if (root->right == NULL) {
-            Node *temp = root->left;
-            free(root);
-            return temp;
-        }
-
-        // Node with two children: Get the inorder successor (smallest in the right subtree)
-        Node *temp = minValueNode(root->right);
-
-        // Copy the inorder successor's content to this node
-        root->hash = temp->hash;
-        root->payload = temp->payload;
-
-        // Delete the inorder successor
-        root->right = deleteNodeRecursive(root->right, temp->hash);
-    }
-    return root;
-}
-
-Node *minValueNode(Node *node) {
-    Node *current = node;
-
-    while (current->left != NULL) {
-        current = current->left;
-    }
-    return current;
-}
-
 void destroyDynamicTree(DynamicTree *tree) {
     destroyTreeRecursive(tree->root);
     if (tree->overlapArray != NULL) {
@@ -117,23 +76,4 @@ void destroyTreeRecursive(Node *root) {
         free(root->payload);
         free(root);
     }
-}
-
-// Sample usage
-int main() {
-    DynamicTree *myTree = createDynamicTree(/* your parameters here */);
-
-    void *newPayload = /* create a Data node */;
-    insertPayload(myTree, newPayload);
-
-    void *foundData = retrivePayload(myTree, );
-
-    // Deletion example
-    int deleteHash = /* specify the hash value */;
-    deleteNode(myTree, deleteHash);
-
-    // Cleanup
-    destroyDynamicTree(myTree);
-
-    return 0;
 }

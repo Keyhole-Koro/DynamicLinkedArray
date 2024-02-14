@@ -1,52 +1,52 @@
 #include "./include/elementHandler.h"
 
-void swapElement(DynamicArray *arr, int pos1, int pos2, DataType type) {
-	if (arr->allowModification == false) error("not allowed to be modified: swapElement\n");
-	if (ifDataTypeMatch(arr, type)) error("type mismatch: swapElement\n");
+void swapElement(DynamicArray *dArr, int pos1, int pos2, DataType type) {
+	if (dArr->allowModification == false) error("not allowed to be modified: swapElement\n");
+	if (ifDataTypeMatch(dArr, type)) error("type mismatch: swapElement\n");
 
-	if (isOutOfRange(arr, pos) || isOutOfRange(arr, pos)) error("Index out of bounds: swapElement\n");
+	if (isOutOfRange(dArr, pos1) || isOutOfRange(dArr, pos2)) error("Index out of bounds: swapElement\n");
 
-	void **data = arr->dataArray;
+	void **data = dArr->dataArray;
 
 	void *temp_element = data[pos1];
 	data[pos1] = data[pos2];
 	data[pos2] = temp_element;
 }
 
-void swapWithLastElement(DynamicArray *arr, int index, DataType type) {
-	swapElement(arr, index, getArrayOffset(arr), type);
+void swapWithLastElement(DynamicArray *dArr, int index, DataType type) {
+	swapElement(dArr, index, getArrayOffset(dArr), type);
 }
 
-void removeElement(DynamicArray *arr, int index, DataType type) {
-	if (arr->allowModification == false) error("not allowed to be modified: removeElement\n");
-	if (!ifDataTypeMatch(arr, type)) error("Type mismatch: swapRemoveElement\n");
-	if (getArraySize(arr) < 2) return;
-	swapWithLastElement(arr, index, type);
-	removeLastElement(arr);
+void removeElement(DynamicArray *dArr, int index, DataType type) {
+	if (dArr->allowModification == false) error("not allowed to be modified: removeElement\n");
+	if (!ifDataTypeMatch(dArr, type)) error("Type mismatch: swapRemoveElement\n");
+	if (getArraySize(dArr) < 2) return;
+	swapWithLastElement(dArr, index, type);
+	removeLastElement(dArr);
 }
 
-void *extractCertainData(DynamicArray *arr, bool (customReferentMember)(void*, void* ,DataType), void *expected_data, DataType type) {
-    for (int i = 0; i < getArraySize(arr); i++) {
-        Data *data = retriveData(arr, i, type);
-        if (isElementDataMatching(data, expected_data, type)) return data;
+void *extractCertainData(DynamicArray *dArr, bool (customReferentMember)(void*, void* ,DataType), void *expected_data, DataType type) {
+    for (int i = 0; i < getArraySize(dArr); i++) {
+        void *data = retriveData(dArr, i, type);
+        if (isElementDataMatching(dArr->referentMember, data, expected_data, type)) return data;
     }
     return NULL;
 }
 
-void prioritize(DynamicArray *arr, int pos, DataType type) {
+void prioritize(DynamicArray *dArr, int pos, DataType type) {
 	if (pos == 0) return;
-	swapElement(arr, pos, pos-1, type);
+	swapElement(dArr, pos, pos-1, type);
 }
 
-void deprioritize(DynamicArray *arr, int pos, DataType type) {
-	if (pos == getArrayOffset(arr)) return;
-	swapElement(arr, pos, pos+1, type);
+void deprioritize(DynamicArray *dArr, int pos, DataType type) {
+	if (pos == getArrayOffset(dArr)) return;
+	swapElement(dArr, pos, pos+1, type);
 }
 
-void allowModify(DynamicArray *arr) {
-	arr->allowModification = true;
+void allowModify(DynamicArray *dArr) {
+	dArr->allowModification = true;
 }
 
-void disableModify(DynamicArray *arr) {
-	arr->allowModification = false;
+void disableModify(DynamicArray *dArr) {
+	dArr->allowModification = false;
 }

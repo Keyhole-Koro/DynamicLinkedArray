@@ -1,104 +1,104 @@
 #include "./include/dynamicArray.h"
 
 DynamicArray *initializeDynamicArray(int initialCapacity, bool allowModification, int (*referentMember)(void *, DataType), DataType type) {
-    DynamicArray *arr = (DynamicArray *)malloc(sizeof(DynamicArray));
-    if (arr == NULL) error("Memory allocation failed\n");
-    arr->dataArray = (void **)malloc(sizeof(void *) * initialCapacity);
-    initializeElementsInDynamicArray(arr, 0);
-    if (arr->dataArray == NULL) error("Memory allocation failed\n");
+    DynamicArray *dArr = (DynamicArray *)malloc(sizeof(DynamicArray));
+    if (dArr == NULL) error("Memory allocation failed\n");
+    dArr->dataArray = (void **)malloc(sizeof(void *) * initialCapacity);
+    initializeElementsInDynamicArray(dArr, 0);
+    if (dArr->dataArray == NULL) error("Memory allocation failed\n");
 
-    arr->dataType = type;
-    arr->dataSize = undefined;
-    arr->offset = undefined;
-    arr->capacity = initialCapacity;
-    arr->allowModification = allowModification;
+    dArr->dataType = type;
+    dArr->dataSize = undefined;
+    dArr->offset = undefined;
+    dArr->capacity = initialCapacity;
+    dArr->allowModification = allowModification;
 
-    arr->overlapArray = (referentMember != &dummy_member) ? createOverlapArray(initialCapacity) : NULL;    
+    dArr->overlapArray = (referentMember != &dummy_member) ? createOverlapArray(initialCapacity) : NULL;    
 
-    arr->referentMember = referentMember;
+    dArr->referentMember = referentMember;
 
-    return arr;
+    return dArr;
 }
 
-void addToDynamicArray(DynamicArray *arr, void *data, DataType type) {
-    if (arr->allowModification == false) error("Modification not allowed: addToDynamicArray\n");
-    if (!ifDataTypeMatch(arr, type)) error("Type mismatch: addToDynamicArray\n");
+void addToDynamicArray(DynamicArray *dArr, void *data, DataType type) {
+    if (dArr->allowModification == false) error("Modification not allowed: addToDynamicArray\n");
+    if (!ifDataTypeMatch(dArr, type)) error("Type mismatch: addToDynamicArray\n");
 
-    if (!isDataSizeSet(arr)) setDataSize(arr, data);
-    if (!isDataSizeMatching(arr, sizeof(*data))) error("Type mismatch at addToDynamicArray()\n");
-    if (ifElementExists(arr, arr->referentMember((void *)data, type))) return;
+    if (!isDataSizeSet(dArr)) setDataSize(dArr, data);
+    if (!isDataSizeMatching(dArr, sizeof(*data))) error("Type mismatch at addToDynamicArray()\n");
+    if (ifElementExists(dArr, dArr->referentMember((void *)data, type))) return;
 
-    reallocateDynamicArray(arr);
+    reallocateDynamicArray(dArr);
 
-    arr->dataArray[++arr->offset] = data;
+    dArr->dataArray[++dArr->offset] = data;
 }
 
-void copyAndAddToDynamicArray(DynamicArray *arr, void *data, DataType type) {
-    if (arr->allowModification == false) error("Modification not allowed: copyAndAddToDynamicArray\n");
-    if (!ifDataTypeMatch(arr, type)) error("Type mismatch: copyAndAddToDynamicArray\n");
+void copyAndAddToDynamicArray(DynamicArray *dArr, void *data, DataType type) {
+    if (dArr->allowModification == false) error("Modification not allowed: copyAndAddToDynamicArray\n");
+    if (!ifDataTypeMatch(dArr, type)) error("Type mismatch: copyAndAddToDynamicArray\n");
 
     int sizeData = sizeof(*data);
 
-    if (!isDataSizeSet(arr)) setDataSize(arr, data);
-    if (!isDataSizeMatching(arr, sizeData)) error("Type mismatch at copyAndAddToDynamicArray()\n");
-    if (ifElementExists(arr, arr->referentMember((void *)data, type))) return;
+    if (!isDataSizeSet(dArr)) setDataSize(dArr, data);
+    if (!isDataSizeMatching(dArr, sizeData)) error("Type mismatch at copyAndAddToDynamicArray()\n");
+    if (ifElementExists(dArr, dArr->referentMember((void *)data, type))) return;
 
-    reallocateDynamicArray(arr);
+    reallocateDynamicArray(dArr);
 
     void *copy_data_ptr = malloc(sizeData);
     if (copy_data_ptr == NULL) error("Memory allocation failed\n");
     memcpy(copy_data_ptr, data, sizeData);
-    arr->dataArray[++arr->offset] = copy_data_ptr;
+    dArr->dataArray[++dArr->offset] = copy_data_ptr;
 }
 
-void *retriveData(DynamicArray *arr, int pos, DataType type) {
-	if (!ifDataTypeMatch(arr, type)) error("type mismatch: retriveData\n");
+void *retriveData(DynamicArray *dArr, int pos, DataType type) {
+	if (!ifDataTypeMatch(dArr, type)) error("type mismatch: retriveData\n");
 
-	if (isOutOfRange(arr, pos)) error("Index out of bounds: retriveData\n");
+	if (isOutOfRange(dArr, pos)) error("Index out of bounds: retriveData\n");
 
-	return arr->dataArray[pos];
+	return dArr->dataArray[pos];
 }
 
-void *fetchMatchingData(DynamicArray *arr, void *expectedData, DataType type) {        
+void *fetchMatchingData(DynamicArray *dArr, void *expectedData, DataType type) {        
     //may replace here to extractCertainData()
-    for (int i = 0; getArraySize(arr); i++) {
-        void *data = (void *)retriveData(arr, i, type);
-        if (isElementDataMatching(arr->referentMember, data, expectedData, type)) return retriveData(arr, fetchPosMatchingData(arr, expectedData, type), type);;
+    for (int i = 0; getArraySize(dArr); i++) {
+        void *data = (void *)retriveData(dArr, i, type);
+        if (isElementDataMatching(dArr->referentMember, data, expectedData, type)) return retriveData(dArr, fetchPosMatchingData(dArr, expectedData, type), type);;
     }
     
     return NULL;
 }
 
-void reallocateDynamicArray(DynamicArray *arr) {
-	if (getArraySize(arr) == arr->capacity) {
-		int previous_capacity_size = arr->capacity;
-		arr->capacity *= 2;
-		arr->dataArray = realloc(arr->dataArray, arr->capacity * sizeof(void *));
-		initializeElementsInDynamicArray(arr, previous_capacity_size+1);
-		if (arr->dataArray == NULL) error("Memory allocation failed\n");
+void reallocateDynamicArray(DynamicArray *dArr) {
+	if (getArraySize(dArr) == dArr->capacity) {
+		int previous_capacity_size = dArr->capacity;
+		dArr->capacity *= 2;
+		dArr->dataArray = realloc(dArr->dataArray, dArr->capacity * sizeof(void *));
+		initializeElementsInDynamicArray(dArr, previous_capacity_size+1);
+		if (dArr->dataArray == NULL) error("Memory allocation failed\n");
 	}
 }
 
-void initializeElementsInDynamicArray(DynamicArray *arr, int startIndex) {
-    for (int i = startIndex; i < arr->capacity; i++) {
-        arr->dataArray[i] = NULL;
+void initializeElementsInDynamicArray(DynamicArray *dArr, int startIndex) {
+    for (int i = startIndex; i < dArr->capacity; i++) {
+        dArr->dataArray[i] = NULL;
     }
 }
 
-DynamicArray *cloneArray(DynamicArray *originalArr) {
-	DataType type = originalArr->dataType;
-	DynamicArray *clonedArray = createDynamicArray(getArraySize(originalArr), originalArr->allowModification, originalArr->referentMember, type);
+DynamicArray *cloneArray(DynamicArray *originaldArr) {
+	DataType type = originaldArr->dataType;
+	DynamicArray *clonedArray = createDynamicArray(getArraySize(originaldArr), originaldArr->allowModification, originaldArr->referentMember, type);
 
-	for (int i = 0; i < getArraySize(originalArr); i++) {
-        void *data = retriveData(originalArr, i, type);
+	for (int i = 0; i < getArraySize(originaldArr); i++) {
+        void *data = retriveData(originaldArr, i, type);
 		appendCopy(clonedArray, data, type);
 	}
 
 	return clonedArray;
 }
 
-void destroyDynamicArray(DynamicArray* arr) {
-    for (int i = 0; i < getArraySize(arr); i++) free(arr->dataArray[i]);
-	free(arr->dataArray);
-	free(arr);
+void destroyDynamicArray(DynamicArray* dArr) {
+    for (int i = 0; i < getArraySize(dArr); i++) free(dArr->dataArray[i]);
+	free(dArr->dataArray);
+	free(dArr);
 }
