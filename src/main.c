@@ -14,11 +14,13 @@ int main() {
     int element2 = 2;
     addToDynamicArray(myArray, &element2, INT);
 
-    unsigned char element3 = 34;
-    addToDynamicArray(myArray, &element3, UNSINED_CHAR);
+    int element3 = 34;
+    addToDynamicArray(myArray, &element3, INT);
+
+    DynamicArray *clonedArray = cloneArray(myArray);
 
     // Retrieve and print elements from the array
-    showIntElements(myArray);
+    showIntElements(clonedArray);
 
     // Fetch matching data
     int searchElement = 10;

@@ -5,7 +5,6 @@
 
 #include "dynamicArray.h"
 #include "dynamicTree.h"
-#include "main.h"
 
 #define HASH_LESS_THAN_OR_EQUAL(root, Node) ((root)->hash <= (Node)->hash)
 

@@ -7,8 +7,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "utils.h"
-
 typedef int type;
 
 typedef struct {
