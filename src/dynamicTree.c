@@ -1,13 +1,16 @@
 #include "dynamicTree.h"
 
-// Function to create a new DynamicTree
-DynamicTree *createDynamicTree(bool ifAllowOverlapping, int (*referentMember)(void*, DataType), bool allowModification, DataType dataType) {
+void insertPayloadRecursive(Node *root, Node *newNode);
+Node *retriveNodeRecursive(Node *root, bool (customCmp)(Node*, Node*), Node *expectedNode);
+void ensureConsistentTreeElements(DynamicTree *tree, Node *newNode, DataType type);
+
+DynamicTree *createDynamicTree(int (*referentMember)(void*, DataType), bool allowModification, DataType dataType) {
     DynamicTree *tree = (DynamicTree*)malloc(sizeof(DynamicTree));
     tree->dataType = dataType;
     tree->dataSize = undefined;
     tree->root = NULL;
     
-    tree->overlapArray = (referentMember != &dummy_member) ? createOverlapArray() : NULL;    
+    tree->overlapArray = (referentMember != &dummy_member) ? createOverlapArray(10) : NULL;    
     tree->referentMember = referentMember;
 
     tree->allowModification = allowModification;
@@ -20,14 +23,15 @@ void *createNode(DynamicTree *tree, void *payload) {
     node->left = NULL;
     node->right = NULL;
     node->payload = payload;
+    return node;
 }
 
 void insertPayload(DynamicTree *tree, Node *newNode, DataType type) {
     ensureConsistentTreeElements(tree, newNode, type);
 
-    if (!isDataSizeSet(tree)) setDataSize(tree, newNode->payload);
-    if (!isDataSizeMatching(tree, sizeof(*newNode->payload))) error("Type mismatch at addToDynamicArray()\n");
-    if (ifElementExists(tree, tree->referentMember((void *)tree, type))) return;
+    if (!isDataSizeSet((DataUnion*)tree)) setDataSize((DataUnion*)tree, newNode->payload);
+    if (!isDataSizeMatching((DataUnion*)tree, sizeof(*newNode->payload))) error("Type mismatch at addToDynamicArray()\n");
+    //if (ifElementExists(tree, tree->referentMember((void *)tree, type))) return;
 
     insertPayloadRecursive(tree->root, newNode);
 }
@@ -37,28 +41,24 @@ void insertPayloadRecursive(Node *root, Node *newNode) {
         root = newNode;
         return;
     }
-    HASH_LESS_THAN_OR_EQUAL(root, newNode) ? root_insertPayload(root->left, newNode) : root_insertPayload(root->right, newNode);       
+    HASH_LESS_THAN_OR_EQUAL(root, newNode) ? insertPayloadRecursive(root->left, newNode) : insertPayloadRecursive(root->right, newNode);       
 }
 
 Node *retriveNode(DynamicTree *tree, bool (customCmp)(Node*, Node*), void *payload) {
     Node *expectedNode = createNode(tree, payload);
 
-    return retriveNodeRecursive(tree->root, expectedNode);  // Return the found Data node or NULL if not found
+    return retriveNodeRecursive(tree->root, customCmp, expectedNode);  // Return the found Data node or NULL if not found
 }
 
-Node *retriveNodeRecursive(Node *root, Node *expectedNode) {
+Node *retriveNodeRecursive(Node *root, bool (customCmp)(Node*, Node*), Node *expectedNode) {
     if (customCmp(root, expectedNode)) return root;
-    return (HASH_LESS_THAN_OR_EQUAL(root, expectedNode)) ? retriveNodeRecursive(root->left, expectedNode) : retriveNodeRecursive(root->right, expectedNode);
+    return (HASH_LESS_THAN_OR_EQUAL(root, expectedNode)) ? retriveNodeRecursive(root->left, customCmp, expectedNode) : retriveNodeRecursive(root->right, customCmp, expectedNode);
     return NULL;
 }
 
 void ensureConsistentTreeElements(DynamicTree *tree, Node *newNode, DataType type) {
-    if (isDataSizeMatching(tree, newNode->payload)) error("The data sizes don't match");
-    if (isDataTypeMatching(tree, type)) error("The data types don't match");
-}
-
-void deleteNode(DynamicTree *tree, int hash) {
-    tree->root = deleteNodeRecursive(tree->root, hash);
+    if (isDataSizeMatching((DataUnion*)tree, sizeof(newNode->payload))) error("The data sizes don't match");
+    if (isDataTypeMatching((DataUnion*)tree, type)) error("The data types don't match");
 }
 
 void destroyDynamicTree(DynamicTree *tree) {

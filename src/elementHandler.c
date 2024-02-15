@@ -2,7 +2,7 @@
 
 void swapElement(DynamicArray *dArr, int pos1, int pos2, DataType type) {
 	if (dArr->allowModification == false) error("not allowed to be modified: swapElement\n");
-	if (ifDataTypeMatch(dArr, type)) error("type mismatch: swapElement\n");
+	if (isDataTypeMatching((DataUnion*)dArr, type)) error("type mismatch: swapElement\n");
 
 	if (isOutOfRange(dArr, pos1) || isOutOfRange(dArr, pos2)) error("Index out of bounds: swapElement\n");
 
@@ -17,9 +17,15 @@ void swapWithLastElement(DynamicArray *dArr, int index, DataType type) {
 	swapElement(dArr, index, getArrayOffset(dArr), type);
 }
 
+void removeLastElement(DynamicArray *arr) {
+	if (arr->allowModification == false) error("not allowed to be modified: removeLastElement\n");
+	free(arr->dataArray[getArrayOffset(arr)]);
+	arr->offset--;
+}
+
 void removeElement(DynamicArray *dArr, int index, DataType type) {
 	if (dArr->allowModification == false) error("not allowed to be modified: removeElement\n");
-	if (!ifDataTypeMatch(dArr, type)) error("Type mismatch: swapRemoveElement\n");
+	if (!isDataTypeMatching((DataUnion*)dArr, type)) error("Type mismatch: swapRemoveElement\n");
 	if (getArraySize(dArr) < 2) return;
 	swapWithLastElement(dArr, index, type);
 	removeLastElement(dArr);
@@ -28,7 +34,7 @@ void removeElement(DynamicArray *dArr, int index, DataType type) {
 void *extractCertainData(DynamicArray *dArr, bool (customReferentMember)(void*, void* ,DataType), void *expected_data, DataType type) {
     for (int i = 0; i < getArraySize(dArr); i++) {
         void *data = retriveData(dArr, i, type);
-        if (isElementDataMatching(dArr->referentMember, data, expected_data, type)) return data;
+        if (customReferentMember(data, expected_data, type)) return data;
     }
     return NULL;
 }

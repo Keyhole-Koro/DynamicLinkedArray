@@ -1,9 +1,13 @@
 #include "overlapHandler.h"
 
+void reallocOverlapArray(OverlapArray *olArr, int index);
+void fillInIndexOfOverlapArray(OverlapArray *olArr, int index);
+
 OverlapArray *createOverlapArray(int size) {
     OverlapArray *arr = (OverlapArray *)malloc(sizeof(OverlapArray));
     arr->capacity = size;
     arr->elementExistenceArray = createBoolArray(size);
+    return arr;
 }
 
 bool ifElementExists(OverlapArray *olArr, int index) {
@@ -25,7 +29,7 @@ void reallocOverlapArray(OverlapArray *olArr, int index) {
 
         olArr->elementExistenceArray = realloc(olArr->elementExistenceArray, new_capacity);
 
-        if (olArr->elementExistenceArray == NULL) error("Memory allocation failed\n");
+        if (!olArr->elementExistenceArray) error("Memory allocation failed\n");
         
         olArr->capacity = new_capacity;
 
@@ -37,4 +41,11 @@ void reallocOverlapArray(OverlapArray *olArr, int index) {
 
 void fillInIndexOfOverlapArray(OverlapArray *olArr, int index) {
 	olArr->elementExistenceArray[index] = true;
+}
+
+void destroyOverlapArray(OverlapArray *olArr) {
+    if (olArr != NULL) {
+        free(olArr->elementExistenceArray);
+        free(olArr);
+    }
 }

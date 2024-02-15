@@ -6,7 +6,7 @@ void showConfigArray(DynamicArray *arr) {
     printf("DataSize: %d\n", arr->dataSize);
     printf("Offset: %d\n", arr->offset);
     printf("Capacity: %d\n", arr->capacity);
-    if (!arr->overlapArray) ("OverlapArrayCapacity: %d\n", arr->overlapArray->capacity);
+    if (!arr->overlapArray) printf("OverlapArrayCapacity: %i\n", arr->overlapArray->capacity);
     printf("Allow Modification: %s\n", arr->allowModification ? "true" : "false");
 
     printf("\n");
@@ -25,7 +25,7 @@ void showConfigArray(DynamicArray *arr) {
 void showIntElements(DynamicArray *arr) {
     printf("All elements in the array:\n");
     for (int i = 0; i < getArraySize(arr); i++) {
-        void *data = retrieveData(arr, i, arr->dataType);
+        void *data = retriveData(arr, i, arr->dataType);
         // Assuming each element is an integer, you can adjust accordingly for other types
         printf("%d\n", *(int *)data);
     }

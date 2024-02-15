@@ -1,11 +1,17 @@
 #ifndef OVERLAP_HANDLER
 #define OVERLAP_HANDLER
 
-#include "dynamicArray.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
 
-typedef struct {
-    bool *elementExistenceArray; // Array containing 0 or 1 indicating existence of elements
-    int capacity; // Capacity of the overlapping array
-} OverlapArray;
+#include "dataTypeHandler.h"
+#include "utils.h"
+
+OverlapArray *createOverlapArray(int size);
+
+bool ifElementExists(OverlapArray *olArr, int index);
+
+void destroyOverlapArray(OverlapArray *olArr);
 
 #endif

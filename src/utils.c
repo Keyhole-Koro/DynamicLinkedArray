@@ -1,6 +1,15 @@
 #include "utils.h"
 
+int undefined = -1;
+
+void error(char *msg) {
+    fprintf(stderr, "Error: %s\n", msg);
+    exit(EXIT_FAILURE);
+}
+
 int dummy_member(void *data, DataType type) {
+    (void)data; // Suppress unused parameter warning
+    (void)type; // Suppress unused parameter warning
     return undefined;
 }
 
@@ -11,7 +20,7 @@ bool isOutOfRange(DynamicArray *dArr, int index) {
 void copyPasteElements(DynamicArray *copiedArr, DynamicArray *pastedArr) {
 	if (copiedArr->dataType != pastedArr->dataType) error("type mismatch: copyPasteElements\n");
 	for (int i = 0; i < getArraySize(copiedArr); i++) {
-		appendCopy(pastedArr, retriveData(copiedArr, i, copiedArr->dataType), pastedArr->dataType);
+		copyAndAddToDynamicArray(pastedArr, retriveData(copiedArr, i, copiedArr->dataType), pastedArr->dataType);
     }
 }
 
@@ -23,12 +32,11 @@ bool isDataSizeMatching(DataUnion *data, int size) {
     return DATA_SIZE_MATCH(data, size);
 }
 
-
 bool isDataSizeSet(DataUnion *data) {
     return DATA_SIZE_MATCH(data, undefined);
 }
 
-void setDataSize(DataUnion *data, void *payload) {
+bool setDataSize(DataUnion *data, void *payload) {
     return DATA_SIZE_MATCH(data, sizeof(*payload));
 }
 
@@ -40,8 +48,12 @@ int getArraySize(DynamicArray *dArr) {
 	return dArr->offset + 1;
 }
 
+int getArrayOffset(DynamicArray *dArr) {
+	return dArr->offset;
+}
+
 bool *createBoolArray(int size) {
-    bool *arr = (unsigned char *)calloc(size, sizeof(bool));
+    bool *arr = (bool*)calloc(size, sizeof(bool));
     initializeBoolArray(arr, size);
     return arr;
 }

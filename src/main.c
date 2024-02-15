@@ -4,6 +4,7 @@ int main() {
     // Initialize a dynamic array
     DynamicArray *myArray = createDynamicArray(10, true, &dummy_member, INT);
 
+    printf("%d\n", myArray->dataType);
     // Add some elements to the array
     int element1 = 10;
     addToDynamicArray(myArray, &element1, INT);

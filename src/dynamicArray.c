@@ -1,6 +1,6 @@
 #include "dynamicArray.h"
 
-DynamicArray *createDynamicArray(int initialCapacity, bool allowModification, int (*referentMember)(void *, DataType), DataType type) {
+DynamicArray *createDynamicArray(int initialCapacity, bool allowModification, int (*referentMember)(void*, DataType), DataType type) {
     DynamicArray *dArr = (DynamicArray *)malloc(sizeof(DynamicArray));
     if (dArr == NULL) error("Memory allocation failed\n");
     dArr->dataArray = (void **)malloc(sizeof(void *) * initialCapacity);
@@ -22,11 +22,11 @@ DynamicArray *createDynamicArray(int initialCapacity, bool allowModification, in
 
 void addToDynamicArray(DynamicArray *dArr, void *data, DataType type) {
     if (dArr->allowModification == false) error("Modification not allowed: addToDynamicArray\n");
-    if (!isDataTypeMatching(dArr, type)) error("Type mismatch: addToDynamicArray\n");
+    if (!isDataTypeMatching((DataUnion*)dArr, type)) error("Type mismatch: addToDynamicArray\n");
 
-    if (!isDataSizeSet(dArr)) setDataSize(dArr, data);
-    if (!isDataSizeMatching(dArr, sizeof(*data))) error("Type mismatch at addToDynamicArray()\n");
-    if (ifElementExists(dArr, dArr->referentMember((void *)data, type))) return;
+    if (!isDataSizeSet((DataUnion*)dArr)) setDataSize((DataUnion*)dArr, data);
+    if (!isDataSizeMatching((DataUnion*)dArr, sizeof(*data))) error("Type mismatch at addToDynamicArray()\n");
+    if (ifElementExists(dArr->overlapArray, dArr->referentMember(data, type))) return;
 
     reallocateDynamicArray(dArr);
 
@@ -35,13 +35,13 @@ void addToDynamicArray(DynamicArray *dArr, void *data, DataType type) {
 
 void copyAndAddToDynamicArray(DynamicArray *dArr, void *data, DataType type) {
     if (dArr->allowModification == false) error("Modification not allowed: copyAndAddToDynamicArray\n");
-    if (!isDataTypeMatching(dArr, type)) error("Type mismatch: copyAndAddToDynamicArray\n");
+    if (!isDataTypeMatching((DataUnion*)dArr, type)) error("Type mismatch: copyAndAddToDynamicArray\n");
 
     int sizeData = sizeof(*data);
 
-    if (!isDataSizeSet(dArr)) setDataSize(dArr, data);
-    if (!isDataSizeMatching(dArr, sizeData)) error("Type mismatch at copyAndAddToDynamicArray()\n");
-    if (ifElementExists(dArr, dArr->referentMember((void *)data, type))) return;
+    if (!isDataSizeSet((DataUnion*)dArr)) setDataSize((DataUnion*)dArr, data);
+    if (!isDataSizeMatching((DataUnion*)dArr, sizeData)) error("Type mismatch at copyAndAddToDynamicArray()\n");
+    if (ifElementExists(dArr->overlapArray, dArr->referentMember(data, type))) return;
 
     reallocateDynamicArray(dArr);
 
@@ -52,7 +52,7 @@ void copyAndAddToDynamicArray(DynamicArray *dArr, void *data, DataType type) {
 }
 
 void *retriveData(DynamicArray *dArr, int pos, DataType type) {
-	if (!isDataTypeMatching(dArr, type)) error("type mismatch: retriveData\n");
+	if (!isDataTypeMatching((DataUnion*)dArr, type)) error("type mismatch: retriveData\n");
 
 	if (isOutOfRange(dArr, pos)) error("Index out of bounds: retriveData\n");
 
@@ -60,10 +60,9 @@ void *retriveData(DynamicArray *dArr, int pos, DataType type) {
 }
 
 void *fetchMatchingData(DynamicArray *dArr, void *expectedData, DataType type) {        
-    //may replace here to extractCertainData()
     for (int i = 0; getArraySize(dArr); i++) {
         void *data = (void *)retriveData(dArr, i, type);
-        if (isElementDataMatching(dArr->referentMember, data, expectedData, type)) return retriveData(dArr, fetchPosMatchingData(dArr, expectedData, type), type);;
+        if (isElementDataMatching(dArr->referentMember, data, expectedData, type)) return data;
     }
     
     return NULL;
@@ -91,7 +90,7 @@ DynamicArray *cloneArray(DynamicArray *originaldArr) {
 
 	for (int i = 0; i < getArraySize(originaldArr); i++) {
         void *data = retriveData(originaldArr, i, type);
-		appendCopy(clonedArray, data, type);
+		copyAndAddToDynamicArray(clonedArray, data, type);
 	}
 
 	return clonedArray;
