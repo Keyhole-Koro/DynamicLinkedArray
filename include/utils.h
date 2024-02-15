@@ -5,6 +5,7 @@
 
 #include "dynamicArray.h"
 #include "dynamicTree.h"
+#include "main.h"
 
 #define HASH_LESS_THAN_OR_EQUAL(root, Node) ((root)->hash <= (Node)->hash)
 
@@ -19,17 +20,14 @@ typedef union {
 
 void error(char *message);
 
-int dummy_member(void*, DataType);
+int dummy_member(void*, DataType*);
 
 bool isOutOfRange(DynamicArray*, int);
 
 void copyPasteElements(DynamicArray*, DynamicArray*);
 
-bool isElementDataMatching(int (*referentMember)(void*, DataType), void*, void*, DataType);
-bool isDataSizeMatching(DataUnion*, int);
-bool isDataSizeSet(DataUnion*);
-bool setDataSize(DataUnion*, void*);
-bool isDataTypeMatching(DataUnion*, DataType);
+bool isElementDataMatching(int (*referentMember)(void*, DataType*), void*, void*, DataType*);
+bool isDataTypeMatching(DataType*, DataType*);
 int getArraySize(DynamicArray*);
 int getArrayOffset(DynamicArray*);
 

@@ -1,11 +1,15 @@
 #include "showElements.h"
 #include <stdio.h>
 
+void showDataType(DataType *dataType) {
+    printf("dataType name %s", dataType->name);
+    printf("dataType size %li", dataType->size);
+}
+
 void showConfigArray(DynamicArray *arr) {
-    printf("DataType: %d\n", arr->dataType);
-    printf("DataSize: %d\n", arr->dataSize);
-    printf("Offset: %d\n", arr->offset);
-    printf("Capacity: %d\n", arr->capacity);
+    showDataType(arr->dataType);
+    printf("Offset: %i\n", arr->offset);
+    printf("Capacity: %i\n", arr->capacity);
     if (!arr->overlapArray) printf("OverlapArrayCapacity: %i\n", arr->overlapArray->capacity);
     printf("Allow Modification: %s\n", arr->allowModification ? "true" : "false");
 

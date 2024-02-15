@@ -10,15 +10,15 @@
 #include "overlapHandler.h"
 #include "utils.h"
 
-DynamicArray *createDynamicArray(int, bool, int (*referentMember)(void*, DataType), DataType);
+DynamicArray *createDynamicArray(int, bool, int (*referentMember)(void*, DataType*), DataType*);
 
-void addToDynamicArray(DynamicArray*, void*, DataType);
+void addToDynamicArray(DynamicArray*, void*, DataType*);
 
-void copyAndAddToDynamicArray(DynamicArray*, void*, DataType);
+void copyAndAddToDynamicArray(DynamicArray*, void*, DataType*);
 
-void *retriveData(DynamicArray*, int, DataType);
+void *retriveData(DynamicArray*, int, DataType*);
 
-void *fetchMatchingData(DynamicArray*, void*, DataType);
+void *fetchMatchingData(DynamicArray*, void*, DataType*);
 
 void reallocateDynamicArray(DynamicArray*);
 

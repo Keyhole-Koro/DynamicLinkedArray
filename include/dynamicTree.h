@@ -1,7 +1,8 @@
 #ifndef DYNAMIC_TREE
 #define DYNAMIC_TREE
 
-#include "stdbool.h"
+#include <stddef.h>
+#include <stdbool.h>
 
 #include "dataTypeHandler.h"
 #include "overlapHandler.h"

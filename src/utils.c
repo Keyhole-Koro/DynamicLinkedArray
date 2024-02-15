@@ -7,9 +7,9 @@ void error(char *msg) {
     exit(EXIT_FAILURE);
 }
 
-int dummy_member(void *data, DataType type) {
+int dummy_member(void *data, DataType *dataType) {
     (void)data; // Suppress unused parameter warning
-    (void)type; // Suppress unused parameter warning
+    (void)dataType; // Suppress unused parameter warning
     return undefined;
 }
 
@@ -24,24 +24,12 @@ void copyPasteElements(DynamicArray *copiedArr, DynamicArray *pastedArr) {
     }
 }
 
-bool isElementDataMatching(int (*referentMember)(void *, DataType),void *data1, void *data2, DataType type) {
-    return referentMember(data1, type) == referentMember(data2, type);
+bool isElementDataMatching(int (*referentMember)(void *, DataType*),void *data1, void *data2, DataType *dataType) {
+    return referentMember(data1, dataType) == referentMember(data2, dataType);
 }
 
-bool isDataSizeMatching(DataUnion *data, int size) {
-    return DATA_SIZE_MATCH(data, size);
-}
-
-bool isDataSizeSet(DataUnion *data) {
-    return DATA_SIZE_MATCH(data, undefined);
-}
-
-bool setDataSize(DataUnion *data, void *payload) {
-    return DATA_SIZE_MATCH(data, sizeof(*payload));
-}
-
-bool isDataTypeMatching(DataUnion *data, DataType expectedDataType) {
-    return data->array.dataType == expectedDataType || data->tree.dataType == expectedDataType;
+bool isDataTypeMatching(DataType *dataType1, DataType *dataType2) {
+    return dataType1 == dataType2;
 }
 
 int getArraySize(DynamicArray *dArr) {
