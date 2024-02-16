@@ -49,17 +49,17 @@ void copyAndAddToDynamicArray(DynamicArray *dArr, void *data, DataType *dataType
     dArr->dataArray[dArr->offset++] = copy_data_ptr;
 }
 
-void *retriveData(DynamicArray *dArr, int pos, DataType *dataType) {
-	if (!isDataTypeMatching(dArr->dataType, dataType)) error("type mismatch: retriveData\n");
+void *retrieveData(DynamicArray *dArr, int pos, DataType *dataType) {
+	if (!isDataTypeMatching(dArr->dataType, dataType)) error("type mismatch: retrieveData\n");
 
-	if (isOutOfRange(dArr, pos)) error("Index out of bounds: retriveData\n");
+	if (isOutOfRange(dArr, pos)) error("Index out of bounds: retrieveData\n");
 
 	return dArr->dataArray[pos];
 }
 
 void *fetchMatchingData(DynamicArray *dArr, void *expectedData, DataType *dataType) {        
     for (int i = 0; getArrayOffset(dArr); i++) {
-        void *data = (void *)retriveData(dArr, i, dataType);
+        void *data = (void *)retrieveData(dArr, i, dataType);
         if (isElementDataMatching(dArr->referentMember, data, expectedData, dataType)) return data;
     }
     
@@ -84,10 +84,10 @@ void initializeElementsInDynamicArray(DynamicArray *dArr, int startIndex) {
 
 DynamicArray *cloneArray(DynamicArray *originaldArr) {
 	DataType *dataType = originaldArr->dataType;
-	DynamicArray *clonedArray = createDynamicArray(originaldArr->name, (originaldArr), originaldArr->allowModification, originaldArr->allowOverlapping, originaldArr->referentMember, dataType);
+	DynamicArray *clonedArray = createDynamicArray(originaldArr->name, originaldArr->allowOverlapping, originaldArr->allowModification, originaldArr->allowOverlapping, originaldArr->referentMember, dataType);
 
 	for (int i = 0; i < getArrayOffset(originaldArr); i++) {
-        void *data = retriveData(originaldArr, i, dataType);
+        void *data = retrieveData(originaldArr, i, dataType);
 		copyAndAddToDynamicArray(clonedArray, data, dataType);
 	}
 

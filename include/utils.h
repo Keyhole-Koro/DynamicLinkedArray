@@ -12,11 +12,6 @@
 
 extern int undefined;
 
-typedef union {
-    DynamicArray array;
-    DynamicTree tree;
-} DataUnion;
-
 void error(char *message);
 
 int dummy_member(void*, DataType*);

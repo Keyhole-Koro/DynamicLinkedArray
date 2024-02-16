@@ -1,5 +1,48 @@
 #include "main.h"
 
+#include <stdio.h>
+#include "dynamicTree.h"
+
+// Define custom comparison function for nodes
+bool customCmp(Node *node1, Node *node2) {
+    printf("%d %d\n", *(int*)node1->payload, *(int*)node2->payload);
+    return *(int*)node1->payload == *(int*)node2->payload;
+}
+
+int hashInt(void *payload) {
+    return *(int*)payload;
+}
+
+int main() {
+    DataType *INT = registerDataType("int", sizeof(int));
+    // Create a dynamic tree
+    DynamicTree *tree = createDynamicTree("test tree", true, true, referenceInt, hashInt, INT);
+    // Insert some nodes into the tree
+    int element1 = 10;
+    insertPayload(tree, &element1, INT);
+    int element2 = 5;
+    insertPayload(tree, &element2, INT);
+    int element3 = 14;
+    insertPayload(tree, &element3, INT);
+    // Retrieve a node from the tree
+    Node *foundNode = retrieveNode(tree, customCmp, &element3);
+    if (foundNode != NULL) {
+        printf("Found node: %i\n", *(int*)foundNode->payload);
+    } else {
+        printf("Node not found\n");
+    }
+
+    // Debugging: Print the tree structure
+    printf("Tree structure:\n");
+
+    // Destroy the dynamic tree
+    destroyDynamicTree(tree);
+
+    return 0;
+}
+
+
+/*
 int main() {
     DataType *INT = registerDataType("int", sizeof(int));
     DataType *UNSINED_CHAR = registerDataType("unsigned char", sizeof(unsigned char));
@@ -49,3 +92,4 @@ int main() {
 
     return 0;
 }
+*/

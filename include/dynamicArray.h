@@ -16,7 +16,7 @@ void addToDynamicArray(DynamicArray*, void*, DataType*);
 
 void copyAndAddToDynamicArray(DynamicArray*, void*, DataType*);
 
-void *retriveData(DynamicArray*, int, DataType*);
+void *retrieveData(DynamicArray*, int, DataType*);
 
 void *fetchMatchingData(DynamicArray*, void*, DataType*);
 

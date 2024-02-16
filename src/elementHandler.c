@@ -33,7 +33,7 @@ void removeElement(DynamicArray *dArr, int index, DataType *dataType) {
 
 void *extractCertainData(DynamicArray *dArr, bool (customReferentMember)(void*, void* ,DataType*), void *expected_data, DataType *dataType) {
     for (int i = 0; i < getArrayOffset(dArr); i++) {
-        void *data = retriveData(dArr, i, dataType);
+        void *data = retrieveData(dArr, i, dataType);
         if (customReferentMember(data, expected_data, dataType)) return data;
     }
     return NULL;

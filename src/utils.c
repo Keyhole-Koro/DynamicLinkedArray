@@ -20,7 +20,7 @@ bool isOutOfRange(DynamicArray *dArr, int index) {
 void copyPasteElements(DynamicArray *copiedArr, DynamicArray *pastedArr) {
 	if (copiedArr->dataType != pastedArr->dataType) error("type mismatch: copyPasteElements\n");
 	for (int i = 0; i < getArrayOffset(copiedArr); i++) {
-		copyAndAddToDynamicArray(pastedArr, retriveData(copiedArr, i, copiedArr->dataType), pastedArr->dataType);
+		copyAndAddToDynamicArray(pastedArr, retrieveData(copiedArr, i, copiedArr->dataType), pastedArr->dataType);
     }
 }
 

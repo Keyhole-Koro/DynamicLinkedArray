@@ -7,7 +7,7 @@ DataType *dataTypes[MAX_DATA_TYPES];
 
 DataType *registerDataType(char *name, int size) {
     DataType *newDataType = malloc(sizeof(DataType));
-    if (newDataType == NULL) error("failed to register data type");
+    if (newDataType == NULL) error("allocation failed to register data type");
     newDataType->name = name;
     newDataType->size = size;
     if (numTypes >= MAX_DATA_TYPES) error("the maximum number of elements exceeds the number defaultly set\n if you wanna change the maximum, modigy MAX_DATATYPES in dataTypeHandler.c");
