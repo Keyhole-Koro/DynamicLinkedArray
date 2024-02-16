@@ -26,13 +26,13 @@ void removeLastElement(DynamicArray *arr) {
 void removeElement(DynamicArray *dArr, int index, DataType *dataType) {
 	if (dArr->allowModification == false) error("not allowed to be modified: removeElement\n");
 	if (!isDataTypeMatching(dArr->dataType, dataType)) error("Type mismatch: swapRemoveElement\n");
-	if (getArraySize(dArr) < 2) return;
+	if (getArrayOffset(dArr) < 2) return;
 	swapWithLastElement(dArr, index, dataType);
 	removeLastElement(dArr);
 }
 
 void *extractCertainData(DynamicArray *dArr, bool (customReferentMember)(void*, void* ,DataType*), void *expected_data, DataType *dataType) {
-    for (int i = 0; i < getArraySize(dArr); i++) {
+    for (int i = 0; i < getArrayOffset(dArr); i++) {
         void *data = retriveData(dArr, i, dataType);
         if (customReferentMember(data, expected_data, dataType)) return data;
     }

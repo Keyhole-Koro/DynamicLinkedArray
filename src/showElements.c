@@ -2,8 +2,8 @@
 #include <stdio.h>
 
 void showDataType(DataType *dataType) {
-    printf("dataType name %s", dataType->name);
-    printf("dataType size %li", dataType->size);
+    printf("dataType name %s\n", dataType->name);
+    printf("dataType size %li\n", dataType->size);
 }
 
 void showConfigArray(DynamicArray *arr) {
@@ -20,15 +20,21 @@ void showConfigArray(DynamicArray *arr) {
     // Displaying elementExistence array
     printf("ElementExistence Array:\n");
     for (int i = 0; i < arr->overlapArray->capacity; ++i) {
-        printf("%d ", arr->overlapArray->elementExistenceArray[i]);
+        printf("%2d ", i); // Print index with a width of 2 characters
     }
+    printf("\n");
+
+    for (int i = 0; i < arr->overlapArray->capacity; ++i) {
+        printf("%2d ", arr->overlapArray->elementExistenceArray[i]);
+    }
+
     printf("\n");
 }
 
 // You need to make another funciton for your own data
 void showIntElements(DynamicArray *arr) {
     printf("All elements in the array:\n");
-    for (int i = 0; i < getArraySize(arr); i++) {
+    for (int i = 0; i < getArrayOffset(arr); i++) {
         void *data = retriveData(arr, i, arr->dataType);
         // Assuming each element is an integer, you can adjust accordingly for other types
         printf("%d\n", *(int *)data);

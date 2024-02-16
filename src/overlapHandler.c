@@ -12,12 +12,12 @@ OverlapArray *createOverlapArray(int size) {
 
 bool ifElementExists(OverlapArray *olArr, int index) {
     if (!olArr) return false;
-	if (index < 0) error("index is under index");
+	if (index < 0) error("index is less than 0");
     if (index > 100) printf("warn: index exceeds 100: index == %d\n", index);// in case the size is huge
 
     reallocOverlapArray(olArr, index);
 
-    if (olArr->elementExistenceArray[index] == 1) return true;
+    if (olArr->elementExistenceArray[index]) return true;
     fillInIndexOfOverlapArray(olArr, index);
     return false;
 }

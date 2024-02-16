@@ -10,7 +10,7 @@
 #include "overlapHandler.h"
 #include "utils.h"
 
-DynamicArray *createDynamicArray(int, bool, int (*referentMember)(void*, DataType*), DataType*);
+DynamicArray *createDynamicArray(char*, int, bool, bool, int (*referentMember)(void*, DataType*), DataType*);
 
 void addToDynamicArray(DynamicArray*, void*, DataType*);
 

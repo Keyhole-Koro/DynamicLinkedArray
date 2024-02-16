@@ -19,7 +19,7 @@ bool isOutOfRange(DynamicArray *dArr, int index) {
 
 void copyPasteElements(DynamicArray *copiedArr, DynamicArray *pastedArr) {
 	if (copiedArr->dataType != pastedArr->dataType) error("type mismatch: copyPasteElements\n");
-	for (int i = 0; i < getArraySize(copiedArr); i++) {
+	for (int i = 0; i < getArrayOffset(copiedArr); i++) {
 		copyAndAddToDynamicArray(pastedArr, retriveData(copiedArr, i, copiedArr->dataType), pastedArr->dataType);
     }
 }
@@ -30,10 +30,6 @@ bool isElementDataMatching(int (*referentMember)(void *, DataType*),void *data1,
 
 bool isDataTypeMatching(DataType *dataType1, DataType *dataType2) {
     return dataType1 == dataType2;
-}
-
-int getArraySize(DynamicArray *dArr) {
-	return dArr->offset + 1;
 }
 
 int getArrayOffset(DynamicArray *dArr) {

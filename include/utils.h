@@ -27,7 +27,6 @@ void copyPasteElements(DynamicArray*, DynamicArray*);
 
 bool isElementDataMatching(int (*referentMember)(void*, DataType*), void*, void*, DataType*);
 bool isDataTypeMatching(DataType*, DataType*);
-int getArraySize(DynamicArray*);
 int getArrayOffset(DynamicArray*);
 
 bool *createBoolArray(int);

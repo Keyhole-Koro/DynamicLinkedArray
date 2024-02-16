@@ -2,6 +2,7 @@
 #define MAIN_H
 
 #include "dataTypeHandler.h"
+#include "referenceHandler.h"
 #include "dynamicArray.h"
 #include "dynamicTree.h"
 #include "showElements.h"
