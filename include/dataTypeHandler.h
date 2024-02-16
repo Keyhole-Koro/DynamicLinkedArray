@@ -42,8 +42,7 @@ typedef struct {
     char *name;
     DataType *dataType;
     Node *root;
-    int numNode;
-    int (*hashCalculation)(void*, DataType*); // the primary parameter has payload
+    int (*hashCalculation)(void*); // the primary parameter has payload
     OverlapArray *overlapArray;
     int (*referentMember)(void*, DataType*); // Function pointer for getting member based on data type
     bool allowOverlapping;

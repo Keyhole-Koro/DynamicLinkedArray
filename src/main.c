@@ -24,6 +24,8 @@ int main() {
     insertPayload(tree, &element2, INT);
     int element3 = 14;
     insertPayload(tree, &element3, INT);
+    printf("root pointer %p\n", tree->root);
+
     // Retrieve a node from the tree
     Node *foundNode = retrieveNode(tree, customCmp, &element3);
     if (foundNode != NULL) {
@@ -31,12 +33,6 @@ int main() {
     } else {
         printf("Node not found\n");
     }
-
-    // Debugging: Print the tree structure
-    printf("Tree structure:\n");
-
-    // Destroy the dynamic tree
-    destroyDynamicTree(tree);
 
     return 0;
 }

@@ -5,6 +5,7 @@
         "main.h": "c",
         "overlaphandler.h": "c",
         "string.h": "c",
-        "stddef.h": "c"
+        "stddef.h": "c",
+        "dynamictree.h": "c"
     }
 }
