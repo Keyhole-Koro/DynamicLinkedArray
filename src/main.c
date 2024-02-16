@@ -5,7 +5,6 @@
 
 // Define custom comparison function for nodes
 bool customCmp(Node *node1, Node *node2) {
-    printf("%d %d\n", *(int*)node1->payload, *(int*)node2->payload);
     return *(int*)node1->payload == *(int*)node2->payload;
 }
 
@@ -24,7 +23,6 @@ int main() {
     insertPayload(tree, &element2, INT);
     int element3 = 14;
     insertPayload(tree, &element3, INT);
-    printf("root pointer %p\n", tree->root);
 
     // Retrieve a node from the tree
     Node *foundNode = retrieveNode(tree, customCmp, &element3);
