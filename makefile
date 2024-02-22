@@ -1,16 +1,22 @@
-CC = gcc
+CC = clang
+LD = lld
 CFLAGS = -Wall -Wextra -std=c99 -lm
+LDFLAGS = -fuse-ld=$(LD)
 EXECUTABLE = output
-SRC = $(wildcard ./src/*.c)  # Use wildcard to capture all .c files in the src directory
-INCLUDE_DIR = ./include
+SRC = $(wildcard ./src/*.c)
+INCLUDE_DIR = ./inc
+BUILD_DIR = ./build
 
-all: $(EXECUTABLE)
+# Find all header files in inc directory
+INC_FILES := $(wildcard ./inc/*.h)
 
-$(EXECUTABLE): $(SRC)
-	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -o $@ $^
+all: $(BUILD_DIR)/$(EXECUTABLE)
+
+$(BUILD_DIR)/$(EXECUTABLE): $(SRC)
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) $(foreach INC,$(INC_FILES),-include $(INC)) -o $@ $^ $(LDFLAGS)
 
 clean:
-	rm -f $(EXECUTABLE)
+	rm -f $(BUILD_DIR)/$(EXECUTABLE)
 
-run: $(EXECUTABLE)  # Add a run target to execute the compiled program
-	./$(EXECUTABLE)
+run: $(BUILD_DIR)/$(EXECUTABLE)
+	./$(BUILD_DIR)/$(EXECUTABLE)
