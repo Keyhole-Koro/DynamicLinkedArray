@@ -13,7 +13,7 @@ void swapElement(DynamicArray *dArr, int pos1, int pos2, DataType *dataType) {
 	data[pos2] = temp_element;
 }
 
-void swapWithLastElement(DynamicArray *dArr, int index, DataType *dataType) {
+inline void swapWithLastElement(DynamicArray *dArr, int index, DataType *dataType) {
 	swapElement(dArr, index, getArrayOffset(dArr), dataType);
 }
 
@@ -39,20 +39,20 @@ void *extractCertainData(DynamicArray *dArr, bool (customReferentMember)(void*, 
     return NULL;
 }
 
-void prioritize(DynamicArray *dArr, int pos, DataType *dataType) {
+inline void prioritize(DynamicArray *dArr, int pos, DataType *dataType) {
 	if (pos == 0) return;
 	swapElement(dArr, pos, pos-1, dataType);
 }
 
-void deprioritize(DynamicArray *dArr, int pos, DataType *dataType) {
+inline void deprioritize(DynamicArray *dArr, int pos, DataType *dataType) {
 	if (pos == getArrayOffset(dArr)) return;
 	swapElement(dArr, pos, pos+1, dataType);
 }
 
-void allowModify(DynamicArray *dArr) {
+inline void allowModify(DynamicArray *dArr) {
 	dArr->allowModification = true;
 }
 
-void disableModify(DynamicArray *dArr) {
+inline void disableModify(DynamicArray *dArr) {
 	dArr->allowModification = false;
 }
