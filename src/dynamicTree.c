@@ -17,38 +17,38 @@ DynamicTree *createDynamicTree(char *name, bool allowOverlapping, bool allowModi
     return tree;
 }
 
-Node *createNode(DynamicTree *tree, void *payload, DataType *dataType) {
+Node *createNode(DynamicTree *tree, void *data, DataType *dataType) {
     if (tree->dataType != dataType) error("type mismatch");
     Node *node = (Node*)malloc(sizeof(Node));
     if (node == NULL) error("allocation failed to create node");
-    node->hash = tree->hashCalculation(payload);
+    node->hash = tree->hashCalculation(data);
     node->left = NULL;
     node->right = NULL;
-    node->payload = payload;
+    node->data = data;
     return node;
 }
 
-void insertPayloadRecursive(DynamicTree *tree, Node **root, Node *newNode) {
+void insertDataRecursive(DynamicTree *tree, Node **root, Node *newNode) {
     DataType *dataType = tree->dataType;
     if (*root == NULL) {
         *root = newNode;
         return;
     }
 
-    if (!tree->allowOverlapping && (*root)->hash == newNode->hash && tree->referentMember((*root)->payload, dataType) == tree->referentMember(newNode->payload, dataType)) return;
+    if (!tree->allowOverlapping && (*root)->hash == newNode->hash && tree->referentMember((*root)->data, dataType) == tree->referentMember(newNode->data, dataType)) return;
 
     if (HASH_LESS_THAN_OR_EQUAL(*root, newNode)) {
-        insertPayloadRecursive(tree, &((*root)->left), newNode);
+        insertDataRecursive(tree, &((*root)->left), newNode);
     } else {
-        insertPayloadRecursive(tree, &((*root)->right), newNode);
+        insertDataRecursive(tree, &((*root)->right), newNode);
     }
 }
 
 
-void insertPayload(DynamicTree *tree, void *payload, DataType *dataType) {
+void insertData(DynamicTree *tree, void *data, DataType *dataType) {
     if (!isDataTypeMatching(tree->dataType, dataType)) error("Type mismatch at addToDynamicArray()\n");
-    Node *newNode = createNode(tree, payload, dataType);
-    insertPayloadRecursive(tree, &(tree->root), newNode);
+    Node *newNode = createNode(tree, data, dataType);
+    insertDataRecursive(tree, &(tree->root), newNode);
 }
 
 Node *retrieveNodeRecursive(Node *root, bool (customCmp)(Node*, Node*), Node *expectedNode) {
@@ -59,11 +59,25 @@ Node *retrieveNodeRecursive(Node *root, bool (customCmp)(Node*, Node*), Node *ex
     return (HASH_LESS_THAN_OR_EQUAL(root, expectedNode)) ? retrieveNodeRecursive(root->left, customCmp, expectedNode) : retrieveNodeRecursive(root->right, customCmp, expectedNode);
 }
 
-Node *retrieveNode(DynamicTree *tree, bool (customCmp)(Node*, Node*), void *payload) {
-    Node *expectedNode = createNode(tree, payload, tree->dataType);
+Node *retrieveNode(DynamicTree *tree, bool (customCmp)(Node*, Node*), void *data) {
+    Node *expectedNode = createNode(tree, data, tree->dataType);
 
     return retrieveNodeRecursive(tree->root, customCmp, expectedNode); // Return the found Data node or NULL if not found
 }
+
+void displayINTTreeInOrder(Node *root) {
+    if (root != NULL) {
+        displayINTTreeInOrder(root->left);
+        printf("%d ", *(int*)(root->data)); // Assuming data is an integer. Modify accordingly for other types.
+        displayINTTreeInOrder(root->right);
+    }
+}
+
+void displayINTTree(DynamicTree *tree) {
+    displayINTTreeInOrder(tree->root);
+    printf("\n");
+}
+
 
 void destroyDynamicTree(DynamicTree *tree) {
     if (tree->overlapArray != NULL) {
@@ -77,7 +91,7 @@ void destroyTreeRecursive(Node *root) {
     if (root != NULL) {
         destroyTreeRecursive(root->left);
         destroyTreeRecursive(root->right);
-        free(root->payload);
+        free(root->data);
         free(root);
     }
 }

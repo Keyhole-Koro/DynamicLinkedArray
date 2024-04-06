@@ -35,14 +35,14 @@ typedef struct {
     int hash;
     void *left;
     void *right;
-    void *payload;
+    void *data;
 } Node;
 
 typedef struct {
     char *name;
     DataType *dataType;
     Node *root;
-    int (*hashCalculation)(void*); // the primary parameter has payload
+    int (*hashCalculation)(void*); // the primary parameter has data
     OverlapArray *overlapArray;
     int (*referentMember)(void*, DataType*); // Function pointer for getting member based on data type
     bool allowOverlapping;

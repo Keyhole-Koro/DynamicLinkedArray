@@ -12,8 +12,9 @@
 
 DynamicTree *createDynamicTree(char*ame, bool, bool, int (*referentMember)(void*, DataType*), int (hashCalculation)(void*), DataType*);
 Node *createNode(DynamicTree*, void*, DataType*);
-void insertPayload(DynamicTree*, void*, DataType*);
+void insertData(DynamicTree*, void*, DataType*);
 Node *retrieveNode(DynamicTree*, bool (customCmp)(Node*, Node*), void*);
+void displayINTTree(DynamicTree*);
 void destroyDynamicTree(DynamicTree*);
 void destroyTreeRecursive(Node*);
 

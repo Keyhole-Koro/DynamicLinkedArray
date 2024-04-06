@@ -5,11 +5,11 @@
 
 // Define custom comparison function for nodes
 bool customCmp(Node *node1, Node *node2) {
-    return *(int*)node1->payload == *(int*)node2->payload;
+    return *(int*)node1->data == *(int*)node2->data;
 }
 
-int hashInt(void *payload) {
-    return *(int*)payload;
+int hashInt(void *data) {
+    return *(int*)data;
 }
 
 int main() {
@@ -18,19 +18,21 @@ int main() {
     DynamicTree *tree = createDynamicTree("test tree", true, true, referenceInt, hashInt, INT);
     // Insert some nodes into the tree
     int element1 = 10;
-    insertPayload(tree, &element1, INT);
+    insertData(tree, &element1, INT);
     int element2 = 5;
-    insertPayload(tree, &element2, INT);
+    insertData(tree, &element2, INT);
     int element3 = 14;
-    insertPayload(tree, &element3, INT);
+    insertData(tree, &element3, INT);
 
     // Retrieve a node from the tree
     Node *foundNode = retrieveNode(tree, customCmp, &element3);
     if (foundNode != NULL) {
-        printf("Found node: %i\n", *(int*)foundNode->payload);
+        printf("Found node: %i\n", *(int*)foundNode->data);
     } else {
         printf("Node not found\n");
     }
+
+    displayINTTree(tree);
 
     return 0;
 }
