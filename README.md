@@ -1,3 +1,3 @@
 # Thoughtful array handler for c
 
-Thoughtful but Dangurous 👿
+Thoughtful but Dangerous 👿
