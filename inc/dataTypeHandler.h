@@ -1,8 +1,6 @@
 #ifndef DATA_TYPE_HANDLER_H
 #define DATA_TYPE_HANDLER_H
 
-#define ARRAY_SIZE 5  
-
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdbool.h>
