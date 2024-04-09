@@ -50,5 +50,6 @@ typedef struct {
 extern DataType *dataTypes[];
 
 DataType *registerDataType(char*, int);
+DataType *retriveDataType(char *expectedName);
 
 #endif

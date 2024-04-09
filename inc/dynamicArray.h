@@ -21,7 +21,6 @@
  * 
  * @return A pointer to the initialized dynamic array.
 **/
-
 DynamicArray *createDynamicArray(char *arrayName, int initialCapacity, bool ifAllowModification, bool ifAllowOverlapping, int (*referentMember)(void*, DataType*), DataType *dataType);
 
 void addToDynamicArray(DynamicArray*, void*, DataType*);
