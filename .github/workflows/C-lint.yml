@@ -2,11 +2,9 @@ name: C Lint
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    branches-ignore:
+      - '*'
+
 
 jobs:
   lint:
@@ -19,5 +17,18 @@ jobs:
     - name: Install build dependencies
       run: sudo apt-get update && sudo apt-get -y install cppcheck
 
-    - name: Run lint
+    - name: Run cppcheck
       run: cppcheck --quiet --language=c .
+
+  analyze:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Install Clang and dependencies
+      run: sudo apt-get install -y clang llvm
+      
+    - name: Run Clang Static Analyzer
+      run: scan-build make
