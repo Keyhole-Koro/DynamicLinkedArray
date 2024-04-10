@@ -1,4 +1,4 @@
-name: C Lint
+name: Make DynamicArray.a
 
 on:
   push:
