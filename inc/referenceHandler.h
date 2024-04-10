@@ -3,7 +3,8 @@
 
 #include <string.h>
 
-#include "dataTypeHandler.h"
+#include "dataType.h"
+#include "utils.h"
 
 int referenceInt(void*, DataType*);
 

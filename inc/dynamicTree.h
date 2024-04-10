@@ -1,21 +1,27 @@
-#ifndef DYNAMIC_TREE
-#define DYNAMIC_TREE
+#ifndef DYNAMIC_TREE_H
+#define DYNAMIC_TREE_H
 
-#include <stddef.h>
 #include <stdbool.h>
 
-#include "dataTypeHandler.h"
-#include "overlapHandler.h"
-#include "utils.h"
+#include "dataType.h"
+#include "overlap.h"
 
-#include "dynamicTree.h"
+typedef struct {
+    int hash;
+    void *left;
+    void *right;
+    void *data;
+} Node;
 
-DynamicTree *createDynamicTree(char*ame, bool, bool, int (*referentMember)(void*, DataType*), int (hashCalculation)(void*), DataType*);
-Node *createNode(DynamicTree*, void*, DataType*);
-void insertData(DynamicTree*, void*, DataType*);
-Node *retrieveNode(DynamicTree*, bool (customCmp)(Node*, Node*), void*);
-void displayINTTree(DynamicTree*);
-void destroyDynamicTree(DynamicTree*);
-void destroyTreeRecursive(Node*);
+typedef struct {
+    char *name;
+    DataType *dataType;
+    Node *root;
+    int (*hashCalculation)(void*); // the primary parameter has data
+    OverlapArray *overlapArray;
+    int (*referentMember)(void*, DataType*); // Function pointer for getting member based on data type
+    bool allowOverlapping;
+    bool allowModification; // If true, allows modification of the array
+} DynamicTree;
 
 #endif

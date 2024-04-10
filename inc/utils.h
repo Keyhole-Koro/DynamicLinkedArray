@@ -1,10 +1,14 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include <stdlib.h>
 #include <stdbool.h>
 
+#include "dataType.h"
 #include "dynamicArray.h"
 #include "dynamicTree.h"
+
+#define nullptr ((void *)0)
 
 #define HASH_LESS_THAN_OR_EQUAL(root, Node) ((root)->hash <= (Node)->hash)
 

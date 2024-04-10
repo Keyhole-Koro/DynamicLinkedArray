@@ -1,7 +1,7 @@
 #ifndef SHOWE_ELEMENTS_H
 #define SHOWE_ELEMENTS_H
 
-#include "dynamicArray.h"
+#include "dynamicArrayHandler.h"
 
 void showConfigArray(DynamicArray*);
 void showIntElements(DynamicArray*);

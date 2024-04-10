@@ -3,8 +3,8 @@
 
 #include "dataTypeHandler.h"
 #include "referenceHandler.h"
-#include "dynamicArray.h"
-#include "dynamicTree.h"
+#include "dynamicArrayHandler.h"
+#include "dynamicTreeHandler.h"
 #include "showElements.h"
 #include "utils.h"
 

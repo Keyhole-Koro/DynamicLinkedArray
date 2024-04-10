@@ -1,8 +1,9 @@
 #ifndef SORT_ELEMENT_H
 #define SORT_ELEMENT_H
 
-#include "dataTypeHandler.h"
-#include "dataTypeHandler.h"
+#include "dynamicArray.h"
+#include "dataType.h"
+#include "elementHandler.h"
 #include "utils.h"
 
 int qsortPartition(DynamicArray *arr, int (referentFunc)(void*, DataType*), int low, int high, DataType *type);

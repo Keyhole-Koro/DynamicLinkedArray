@@ -1,11 +1,12 @@
-#ifndef OVERLAP_HANDLER
-#define OVERLAP_HANDLER
+#ifndef OVERLAP_HANDLER_H
+#define OVERLAP_HANDLER_H
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 
-#include "dataTypeHandler.h"
+#include "overlap.h"
+
 #include "utils.h"
 
 OverlapArray *createOverlapArray(int size);

@@ -1,8 +1,5 @@
 #include "main.h"
 
-#include <stdio.h>
-#include "dynamicTree.h"
-
 // Define custom comparison function for nodes
 bool customCmp(Node *node1, Node *node2) {
     return *(int*)node1->data == *(int*)node2->data;
@@ -14,25 +11,21 @@ int hashInt(void *data) {
 
 int main() {
     DataType *INT = registerDataType("int", sizeof(int));
-    // Create a dynamic tree
-    DynamicTree *tree = createDynamicTree("test tree", true, true, referenceInt, hashInt, INT);
-    // Insert some nodes into the tree
+    DynamicArray *arr = createDynamicArray("test array", true, true, &referenceInt, NULL, INT);
+    
     int element1 = 10;
-    insertData(tree, &element1, INT);
+    addToDynamicArray(arr, &element1, INT);
     int element2 = 5;
-    insertData(tree, &element2, INT);
+    addToDynamicArray(arr, &element2, INT);
     int element3 = 14;
-    insertData(tree, &element3, INT);
+    addToDynamicArray(arr, &element3, INT);
 
-    // Retrieve a node from the tree
-    Node *foundNode = retrieveNode(tree, customCmp, &element3);
-    if (foundNode != NULL) {
-        printf("Found node: %i\n", *(int*)foundNode->data);
+    int *foundData = retrieveData(arr, 1, INT);
+    if (foundData != NULL) {
+        printf("Found data: %i\n", *foundData);
     } else {
-        printf("Node not found\n");
+        printf("data not found\n");
     }
-
-    displayINTTree(tree);
 
     return 0;
 }

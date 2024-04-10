@@ -4,7 +4,7 @@ int undefined = -1;
 
 void error(char *msg) {
     fprintf(stderr, "Error: %s\n", msg);
-    exit(EXIT_FAILURE);
+    exit(1);
 }
 
 int dummy_member(void *data, DataType *dataType) {

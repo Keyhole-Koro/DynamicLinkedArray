@@ -1,4 +1,5 @@
 #include "dataTypeHandler.h"
+
 #define MAX_DATA_TYPES 30
 
 int numTypes = 0;
