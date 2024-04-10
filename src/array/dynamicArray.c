@@ -49,6 +49,10 @@ void copyAndAddToDynamicArray(DynamicArray *dArr, void *data, DataType *dataType
     dArr->dataArray[dArr->offset++] = copy_data_ptr;
 }
 
+inline int getArrayOffset(DynamicArray *dArr) {
+	return dArr->offset;
+}
+
 void *retrieveData(DynamicArray *dArr, int pos, DataType *dataType) {
 	if (!isDataTypeMatching(dArr->dataType, dataType)) error("type mismatch: retrieveData\n");
 
@@ -74,6 +78,17 @@ void reallocateDynamicArray(DynamicArray *dArr) {
 		initializeElementsInDynamicArray(dArr, previous_capacity_size+1);
 		if (dArr->dataArray == NULL) error("Memory allocation failed\n");
 	}
+}
+
+bool isOutOfRange(DynamicArray *dArr, int index) {
+    return index < 0 || index > getArrayOffset(dArr);
+}
+
+void copyPasteElements(DynamicArray *copiedArr, DynamicArray *pastedArr) {
+	if (copiedArr->dataType != pastedArr->dataType) error("type mismatch: copyPasteElements\n");
+	for (int i = 0; i < getArrayOffset(copiedArr); i++) {
+		copyAndAddToDynamicArray(pastedArr, retrieveData(copiedArr, i, copiedArr->dataType), pastedArr->dataType);
+    }
 }
 
 void initializeElementsInDynamicArray(DynamicArray *dArr, int startIndex) {

@@ -13,27 +13,12 @@ int dummy_member(void *data, DataType *dataType) {
     return undefined;
 }
 
-bool isOutOfRange(DynamicArray *dArr, int index) {
-    return index < 0 || index > getArrayOffset(dArr);
-}
-
-void copyPasteElements(DynamicArray *copiedArr, DynamicArray *pastedArr) {
-	if (copiedArr->dataType != pastedArr->dataType) error("type mismatch: copyPasteElements\n");
-	for (int i = 0; i < getArrayOffset(copiedArr); i++) {
-		copyAndAddToDynamicArray(pastedArr, retrieveData(copiedArr, i, copiedArr->dataType), pastedArr->dataType);
-    }
-}
-
 bool isElementDataMatching(int (*referentMember)(void *, DataType*),void *data1, void *data2, DataType *dataType) {
     return referentMember(data1, dataType) == referentMember(data2, dataType);
 }
 
 bool isDataTypeMatching(DataType *dataType1, DataType *dataType2) {
     return dataType1 == dataType2;
-}
-
-int getArrayOffset(DynamicArray *dArr) {
-	return dArr->offset;
 }
 
 bool *createBoolArray(int size) {

@@ -27,11 +27,17 @@ void addToDynamicArray(DynamicArray*, void*, DataType*);
 
 void copyAndAddToDynamicArray(DynamicArray*, void*, DataType*);
 
+int getArrayOffset(DynamicArray*);
+
 void *retrieveData(DynamicArray*, int, DataType*);
 
 void *fetchMatchingData(DynamicArray*, void*, DataType*);
 
 void reallocateDynamicArray(DynamicArray*);
+
+bool isOutOfRange(DynamicArray*, int);
+
+void copyPasteElements(DynamicArray*, DynamicArray*);
 
 void initializeElementsInDynamicArray(DynamicArray*, int);
 

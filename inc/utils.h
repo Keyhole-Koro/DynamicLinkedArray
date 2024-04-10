@@ -16,13 +16,8 @@ void error(char *message);
 
 int dummy_member(void*, DataType*);
 
-bool isOutOfRange(DynamicArray*, int);
-
-void copyPasteElements(DynamicArray*, DynamicArray*);
-
 bool isElementDataMatching(int (*referentMember)(void*, DataType*), void*, void*, DataType*);
 bool isDataTypeMatching(DataType*, DataType*);
-int getArrayOffset(DynamicArray*);
 
 bool *createBoolArray(int);
 void initializeBoolArray(bool*, int);
