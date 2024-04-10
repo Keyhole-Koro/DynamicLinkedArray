@@ -44,7 +44,6 @@ void insertDataRecursive(DynamicTree *tree, Node **root, Node *newNode) {
     }
 }
 
-
 void insertData(DynamicTree *tree, void *data, DataType *dataType) {
     if (!isDataTypeMatching(tree->dataType, dataType)) error("Type mismatch at addToDynamicArray()\n");
     Node *newNode = createNode(tree, data, dataType);
