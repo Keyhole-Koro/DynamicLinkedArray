@@ -17,7 +17,7 @@ DataType *registerDataType(char *name, int size) {
     return newDataType;
 }
 
-DataType *retriveDataType(char *expectedName) {
+DataType *retrieveDataType(char *expectedName) {
     for (int i = 0; i < numTypes; i++) {
         if (dataTypes[i]->name == expectedName) return dataTypes[i];
     }
