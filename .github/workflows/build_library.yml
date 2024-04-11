@@ -1,0 +1,20 @@
+name: Build DynamicArray.a
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install build dependencies
+      run: sudo apt-get update && sudo apt-get -y install clang lld
+
+    - name: Build library
+      run: cd lib_dynamic_array && make lib

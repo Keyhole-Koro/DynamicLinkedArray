@@ -4,18 +4,16 @@ CFLAGS = -Wall -Wextra -std=c99 -lm
 LDFLAGS = -fuse-ld=$(LD)
 EXECUTABLE = output
 SRC = $(wildcard ./src/*.c) $(wildcard ./src/**/*.c)
+INC := $(wildcard ./inc/*.h)
+
 INCLUDE_DIR = ./inc
 BUILD_DIR = ./build
 
-# Find all header files in inc directory
-INC_FILES := $(wildcard ./inc/*.h)
-
-# Create build directory if not exists
 $(shell mkdir -p $(BUILD_DIR))
 
 all: $(BUILD_DIR)/$(EXECUTABLE)
 
-$(BUILD_DIR)/$(EXECUTABLE): $(SRC)
+$(BUILD_DIR)/$(EXECUTABLE): $(SRC) $(INC)
 	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -o $@ $^ $(LDFLAGS)
 
 clean:
