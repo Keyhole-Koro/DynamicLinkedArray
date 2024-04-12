@@ -6,7 +6,7 @@ on:
       - 'main'
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,7 +17,7 @@ jobs:
       run: sudo apt-get update && sudo apt-get -y install clang lld
 
     - name: Clean library
-      run:  cd lib_dynamic_array && make clean
+      run:  cd lib_dynamic_linked_array && make clean
       
     - name: Build library
-      run: make lib
+      run: cd lib_dynamic_linked_array && make lib
