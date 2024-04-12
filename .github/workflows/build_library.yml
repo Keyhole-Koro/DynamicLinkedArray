@@ -16,5 +16,8 @@ jobs:
     - name: Install build dependencies
       run: sudo apt-get update && sudo apt-get -y install clang lld
 
+    - name: Clean library
+      run:  cd lib_dynamic_array && make clean
+      
     - name: Build library
-      run: cd lib_dynamic_array && make lib
+      run: make lib
