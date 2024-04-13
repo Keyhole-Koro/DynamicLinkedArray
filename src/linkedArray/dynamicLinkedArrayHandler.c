@@ -1,6 +1,9 @@
-#include "dynamicLinkedArrayHandler.c"
+#include "dynamicLinkedArrayHandler.h"
 
-DynamicLinkedArray *createDynamicLinkedArray(char *arrayName, int initialCapacity, bool ifAllowModification, bool ifAllowOverlapping, int (*referentMember)(void*, DataType*), DataType *dataType) {
+DynamicLinkedArray *createDynamicLinkedArray(char *arrayName, int initialCapacity,
+        bool ifAllowModification, bool ifAllowOverlapping,
+        int (*referentMember)(void*, DataType*), DataType *dataType) {
+            
     DynamicLinkedArray *dArr = (DynamicLinkedArray *)malloc(sizeof(DynamicLinkedArray));
     if (dArr == NULL) error("Memory allocation failed\n");
     
@@ -15,8 +18,10 @@ DynamicLinkedArray *createDynamicLinkedArray(char *arrayName, int initialCapacit
 
     dArr->referentMember = referentMember;
 
+    setArrayLength(dArr, dataType);
+
     void *arr = makeArray(dArr);
-    dArr->arrayNode = makeArrayNode(NULL, arr);
+    dArr->arrayNode = makeArrayNode(nullptr, arr);
 
     return dArr;
 }
@@ -37,6 +42,22 @@ void addToDynamicLinkedArray(DynamicLinkedArray *dArr, void *data, DataType *dat
     memcpy(arr +  dataType->size*(dArr->offset++), data, dataType->size);
 }
 
+void *retrieveLinkedArrayData(DynamicLinkedArray *dArr, int pos, DataType *dataType) {
+    int desNodePos = quotient(pos, arraySize(dArr));
+    ArrayNode *desNode = fetchNode(dArr->arrayNode, desNodePos);
+
+    printf("dArr:%d %d %d\n", arraySize(dArr), dArr->dataType->size * dArr->arrayLength);
+    printf("a%d\n",remainder_int(arraySize(dArr), pos));
+    printf("b%d\n",(dataType->size));
+
+    return desNode->array + remainder_int(arraySize(dArr), pos) * (dataType->size);
+}
+
+void *fetchNode(ArrayNode *node, int num) {
+    if (num <= 0) return node;
+    return fetchNode(node->next, num - 1);
+}
+
 void *fetchLatestArray(DynamicLinkedArray *dArr) {
     return fetchLatestArray_(dArr->arrayNode);
 }
@@ -54,25 +75,24 @@ void newArray(DynamicLinkedArray *dArr) {
 void *makeArray(DynamicLinkedArray *dArr) {
     void *arr = malloc(arraySize(dArr));
     if (arr == NULL) error("Memory allocation failed\n");
-    initializeElements(arr);
+    initializeElements(arr, arraySize(dArr));
     return arr;
 }
 
-void makeArrayNode(ArrayNode *previousNode, void *array) {
+void *makeArrayNode(ArrayNode *previousNode, void *array) {
     ArrayNode *node = (ArrayNode *)malloc(sizeof(ArrayNode));
     if (node == NULL) error("Memory allocation failed\n");
     node->array = array;
     node->next = NULL;
     if (previousNode) previousNode->next = node;
+    return node;
 }
 
-void initializeElements(void *arr) {
-    for (int i = 0; i < arraySize(dArr); i++) {
-        arr[i] = NULL;
-    }
+void initializeElements(void *arr, int size) {
+    memset(arr, 0, size);
 }
 
-void insertArrayLength(DynamicLinkedArray *dArr, DataType *dataType) {
+void setArrayLength(DynamicLinkedArray *dArr, DataType *dataType) {
     int size = dataType->size;
     if (size <= 9) dArr->arrayLength = 81;
     else if (size <= 16) dArr->arrayLength = 64;
@@ -83,3 +103,28 @@ void insertArrayLength(DynamicLinkedArray *dArr, DataType *dataType) {
     else  dArr->arrayLength = 9;
 }
 
+inline int arraySize(DynamicLinkedArray *dArr) {
+    return dArr->dataType->size * dArr->arrayLength;
+}
+
+inline int getLinkedArrayOffset(DynamicLinkedArray *dArr) {
+    return dArr->offset;
+}
+
+inline bool isOutOfRangeLinkedArray(DynamicLinkedArray *dArr, int index) {
+    return index < 0 || index > getLinkedArrayOffset(dArr);
+}
+
+int quotient_(int operand, int operator, int result) {
+    if (operand - operator) return result;
+    return quotient_(operand, operator, result + 1);
+}
+
+inline int quotient(int operand, int operator) {
+    return quotient_(operand, operator, 0);
+}
+
+int remainder_int(int operand, int operator) {
+    if (operand - operator <= 0) return operand;
+    return remainder_int(operand, operator);
+}

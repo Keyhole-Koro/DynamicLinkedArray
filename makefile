@@ -13,7 +13,7 @@ $(shell mkdir -p $(BUILD_DIR))
 
 all: $(BUILD_DIR)/$(EXECUTABLE)
 
-$(BUILD_DIR)/$(EXECUTABLE): $(SRC) $(INC)
+$(BUILD_DIR)/$(EXECUTABLE): $(SRC)
 	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -o $@ $^ $(LDFLAGS)
 
 clean:

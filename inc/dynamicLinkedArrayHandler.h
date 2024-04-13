@@ -6,7 +6,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-#include "dynamicArray.h"
+#include "dynamicLinkedArray.h"
 
 #include "dataType.h"
 #include "utils.h"
@@ -23,28 +23,22 @@
  * 
  * @return A pointer to the initialized dynamic array.
 **/
-DynamicArray *createDynamicArray(char *arrayName, int initialCapacity, bool ifAllowModification, bool ifAllowOverlapping, int (*referentMember)(void*, DataType*), DataType *dataType);
 
-void addToDynamicArray(DynamicArray*, void*, DataType*);
+DynamicLinkedArray *createDynamicLinkedArray(char *arrayName, int initialCapacity, bool ifAllowModification,bool ifAllowOverlapping, int (*referentMember)(void*, DataType*), DataType *dataType);
+bool validateDynamicLinkedArrayAddition(DynamicLinkedArray *dArr, void *data, DataType *dataType);
+void addToDynamicLinkedArray(DynamicLinkedArray *dArr, void *data, DataType *dataType);
+void *retrieveLinkedArrayData(DynamicLinkedArray *dArr, int pos, DataType *dataType);
+void *fetchNode(ArrayNode *node, int num);
+void *fetchLatestArray(DynamicLinkedArray *dArr);
+void *fetchLatestArray_(ArrayNode *node);
+void newArray(DynamicLinkedArray *dArr);
+void *makeArray(DynamicLinkedArray *dArr);
+void *makeArrayNode(ArrayNode *previousNode, void *array);
+void initializeElements(void *arr, int size);
+void setArrayLength(DynamicLinkedArray *dArr, DataType *dataType);
+int arraySize(DynamicLinkedArray *dArr);
 
-void copyAndAddToDynamicArray(DynamicArray*, void*, DataType*);
-
-int getArrayOffset(DynamicArray*);
-
-void *retrieveData(DynamicArray*, int, DataType*);
-
-void *fetchMatchingData(DynamicArray*, void*, DataType*);
-
-void reallocateDynamicArray(DynamicArray*);
-
-bool isOutOfRange(DynamicArray*, int);
-
-void copyPasteElements(DynamicArray*, DynamicArray*);
-
-void initializeElementsInDynamicArray(DynamicArray*, int);
-
-DynamicArray *cloneArray(DynamicArray*);
-
-void destroyDynamicArray(DynamicArray*);
+int quotient(int operand, int operator);
+int remainder_int(int operand, int operator);
 
 #endif

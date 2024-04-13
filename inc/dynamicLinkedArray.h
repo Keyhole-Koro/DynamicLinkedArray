@@ -6,6 +6,7 @@
 
 #include "dataType.h"
 #include "overlap.h"
+#include "utils.h"
 
 typedef struct ArrayNode ArrayNode;
 
@@ -23,17 +24,8 @@ typedef struct {
 } DynamicLinkedArray;
 
 struct ArrayNode {
-    void *array
+    void *array;
     ArrayNode *next;
 };
-
-inline void arraySize(DynamicLinkedArray *dArr) {
-    return dArr->dataType->size * dArr->arrayLength;
-}
-
-inline bool isOutOfRange(DynamicLinkedArray *dArr, int index) {
-    return index < 0 || index > getArrayOffset(dArr);
-}
-
 
 #endif

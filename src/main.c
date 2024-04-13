@@ -11,16 +11,16 @@ int hashInt(void *data) {
 
 int main() {
     DataType *INT = registerDataType("int", sizeof(int));
-    DynamicArray *arr = createDynamicArray("test array", true, true, &referenceInt, NULL, INT);
-    
-    int element1 = 10;
-    addToDynamicArray(arr, &element1, INT);
-    int element2 = 5;
-    addToDynamicArray(arr, &element2, INT);
-    int element3 = 14;
-    addToDynamicArray(arr, &element3, INT);
+    DynamicLinkedArray *arr = createDynamicLinkedArray("test array", true, true, &referenceInt, NULL, INT);
 
-    int *foundData = retrieveData(arr, 1, INT);
+    int element1 = 10;
+    addToDynamicLinkedArray(arr, &element1, INT);
+    int element2 = 5;
+    addToDynamicLinkedArray(arr, &element2, INT);
+    int element3 = 14;
+    addToDynamicLinkedArray(arr, &element3, INT);
+
+    int *foundData = retrieveLinkedArrayData(arr, 3, INT);
     if (foundData != NULL) {
         printf("Found data: %i\n", *foundData);
     } else {

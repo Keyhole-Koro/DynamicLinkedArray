@@ -8,7 +8,7 @@
     struct DataType is separated from dataTypeHandler.h **/
 typedef struct {
     char *name;
-    size_t size;
+    int size;
 } DataType;
 
 #endif
